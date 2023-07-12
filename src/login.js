@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes } from "react-router-dom";
 import './login.css';
+import './index.css';
 import SideBar from './sidebar.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
