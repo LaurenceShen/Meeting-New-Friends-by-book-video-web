@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { HashRouter, Route, Routes } from "react-router-dom";
 import './index.css';
+import './login.js';
+import SideBar from './sidebar.js';
+import Login from './login.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -23,11 +27,49 @@ import {
 import { MDBBadge } from 'mdb-react-ui-kit';
 
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
+/*
+class SideBar extends React.Component {
+    constructor() {
+      super();
+      this.state = {
+        width: window.innerWidth,
+      };
+    }
 
-function App() {
-    const [showShow, setShowShow] = useState(false);
+    componentWillMount() {
+      window.addEventListener('resize', this.handleWindowSizeChange);
+    }
 
-  const toggleShow = () => setShowShow(!showShow);
+    // make sure to remove the listener
+    // when the component is not mounted anymore
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange = () => {
+      this.setState({ width: window.innerWidth });
+    };
+render(){
+    const { width } = this.state;
+    const isMobile = width <= 500;
+  if (isMobile){
+  return (
+    <div className='User-icon'>
+        <nav className = "menu_mobile">
+            <div className='icon-img'>
+                <MDBIcon fas icon="user-circle" size = '2x'/>
+            </div>
+            <ul>
+                <li><a href="user">User</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#login">Login</a></li>
+            </ul>
+        </nav>
+  </div>
+  );
+  
+  }else{
   return (
     <div className='User-icon'>
         <nav className = "menu">
@@ -43,8 +85,10 @@ function App() {
         </nav>
   </div>
   );
+  }
 }
-
+}
+*/
 function NavBar(){
     const [showNavRight, setShowNavRight] = useState(false);
   return (
@@ -167,7 +211,7 @@ class FrontPage extends React.Component {
         return(
             <div className = "FrontPage">
                 <div className = "User-block">
-                    <App />
+                    <SideBar />
                 </div>
                 <h2 className = "Title"> Search! </h2>
                 <div className = "Search-Bar">
@@ -188,5 +232,18 @@ class FrontPage extends React.Component {
 
 // ========================================
 
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={ <FrontPage /> } />
+        <Route path="/login" element={ <Login /> } />
+      </Routes>
+    </HashRouter>
+  </React.StrictMode>
+)
+       //<Route path="users/:userId" component={Users} />
+/*
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<FrontPage />);
+*/
