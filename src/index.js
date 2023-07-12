@@ -20,54 +20,55 @@ import {
   MDBDropdownItem,
 } from 'mdb-react-ui-kit';
 
-function NavBar(){
+import { MDBBadge } from 'mdb-react-ui-kit';
 
-  const [showNavRight, setShowNavRight] = useState(false);
+import SidebarMenu from 'react-bootstrap-sidebar-menu';
 
+function App() {
+    const [showShow, setShowShow] = useState(false);
+
+  const toggleShow = () => setShowShow(!showShow);
   return (
-    <MDBNavbar fixed="top" expand='sm' light >
-      <MDBContainer fluid>
-        <MDBNavbarToggler
-          type='button'
-          data-target='#navbarRightAlignExample'
-          aria-controls='navbarRightAlignExample'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-          onClick={() => setShowNavRight(!showNavRight)}
-        >
-          <MDBIcon icon='bars' fas />
-        </MDBNavbarToggler>
+    <div className='User-icon'>
+        <nav className = "menu">
+            <div className='icon-img'>
+                <MDBIcon fas icon="user-circle" size = '2x'/>
+            </div>
+            <ul>
+                <li><a href="user">User</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#login">Login</a></li>
+            </ul>
+        </nav>
+  </div>
+  );
+}
 
-        <MDBCollapse navbar show={showNavRight}>
-          <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
-            <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='#'>
-                Home
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href='#'>Link</MDBNavbarLink>
-            </MDBNavbarItem>
-
-            <MDBNavbarItem>
-              <MDBDropdown>
-                <MDBDropdownToggle tag='a' className='nav-link'>
-                  Dropdown
-                </MDBDropdownToggle>
-                <MDBDropdownMenu>
-                  <MDBDropdownItem link>Action</MDBDropdownItem>
-                  <MDBDropdownItem link>Another action</MDBDropdownItem>
-                  <MDBDropdownItem link>Something else here</MDBDropdownItem>
-                </MDBDropdownMenu>
-              </MDBDropdown>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink disabled href='#' tabIndex={-1} aria-disabled='true'>
-                Disabled
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-          </MDBNavbarNav>
-        </MDBCollapse>
+function NavBar(){
+    const [showNavRight, setShowNavRight] = useState(false);
+  return (
+    <MDBNavbar fixed = "top" expand='lg' light bgColor='none'>
+      <MDBContainer fluid show={showNavRight}>
+        <MDBNavbarNav  className='d-flex flex-row'>
+          <MDBNavbarItem className='me-3 me-lg-0'>
+            <MDBNavbarLink href='#'>
+              <MDBIcon fas icon='shopping-cart' />
+            </MDBNavbarLink>
+          </MDBNavbarItem>
+          <MDBNavbarItem className='me-3 me-lg-0'>
+            <MDBNavbarLink href='#'>
+              <MDBIcon fab icon='twitter' />
+            </MDBNavbarLink>
+          </MDBNavbarItem>
+        </MDBNavbarNav>
+        <MDBNavbarNav right fullWidth={false} className='d-flex flex-row'>
+          <MDBNavbarItem>
+            <MDBNavbarLink href='#'>
+              <MDBIcon fas icon= "cat" />
+            </MDBNavbarLink>
+          </MDBNavbarItem>
+        </MDBNavbarNav>
       </MDBContainer>
     </MDBNavbar>
   );
@@ -165,8 +166,8 @@ class FrontPage extends React.Component {
     render(){
         return(
             <div className = "FrontPage">
-                <div className = "Nav-Bar">
-                    <NavBar />
+                <div className = "User-block">
+                    <App />
                 </div>
                 <h2 className = "Title"> Search! </h2>
                 <div className = "Search-Bar">
