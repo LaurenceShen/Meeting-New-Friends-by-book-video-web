@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes } from "react-router-dom";
 import './index.css';
@@ -26,6 +26,9 @@ import { MDBBadge } from 'mdb-react-ui-kit';
 
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+
 class SideBar extends React.Component {
     constructor() {
       super();
@@ -47,6 +50,12 @@ class SideBar extends React.Component {
     handleWindowSizeChange = () => {
       this.setState({ width: window.innerWidth });
     };
+    
+    logOut = () => {
+        googleLogout();
+        useState.setProfile(null);
+    };
+
 render(){
     //location!
     const { width } = this.state;
@@ -55,11 +64,13 @@ render(){
   return (
     <div className='User-icon'>
         <nav className = "menu_mobile">
+        <a href = "/" className = "icon">
             <div className='icon-img'>
                 <MDBIcon fas icon="user-circle" size = '2x'/>
             </div>
+        </a>
             <ul>
-                <li><a href="user">User</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="/#/login">Login</a></li>
@@ -72,11 +83,13 @@ render(){
   return (
     <div className='User-icon'>
         <nav className = "menu">
+        <a href = "/" className = "icon">
             <div className='icon-img'>
                 <MDBIcon fas icon="user-circle" size = '2x' />
             </div>
+        </a>
             <ul>
-                <li><a href="#/user">User</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="#/about">About</a></li>
                 <li><a href="#/contact">Contact</a></li>
                 <li><a href="#/login">Login</a></li>

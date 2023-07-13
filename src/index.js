@@ -27,6 +27,8 @@ import {
 import { MDBBadge } from 'mdb-react-ui-kit';
 
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 /*
 class SideBar extends React.Component {
     constructor() {
@@ -237,7 +239,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <HashRouter>
       <Routes>
         <Route path="/" element={ <FrontPage /> } />
-        <Route path="/login" element={ <Login /> } />
+        <Route path="/login" element={ <GoogleOAuthProvider clientId="325684444932-r6ba80mc6eong2p7dnn62flrqd3266c6.apps.googleusercontent.com">
+        <React.StrictMode>
+            <Login />
+        </React.StrictMode>
+    </GoogleOAuthProvider> } />
       </Routes>
     </HashRouter>
   </React.StrictMode>
