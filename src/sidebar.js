@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes } from "react-router-dom";
 import './index.css';
 import './login.js';
+import useRWD from './useRWD.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -29,40 +30,11 @@ import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 
-class SideBar extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        width: window.innerWidth,
-      };
-    }
-
-    componentWillMount() {
-      window.addEventListener('resize', this.handleWindowSizeChange);
-    }
-
-    // make sure to remove the listener
-    // when the component is not mounted anymore
-    componentWillUnmount() {
-      window.removeEventListener('resize', this.handleWindowSizeChange);
-    }
-
-    handleWindowSizeChange = () => {
-      this.setState({ width: window.innerWidth });
-    };
-    
-    logOut = () => {
-        googleLogout();
-        useState.setProfile(null);
-    };
-
-render(){
-    //location!
-    const { width } = this.state;
-    const isMobile = width <= 500;
+function SideBar(){
+  const device = useRWD();
   return (
     <div className='User-icon'>
-        <nav className = {isMobile ? ("menu_mobile") : ("menu")}>
+        <nav className = {device==="mobile" ? ("menu_mobile") : ("menu")}>
             <div className='icon-img'>
                 <MDBIcon fas icon="user-circle" size = '2x'/>
             </div>
@@ -73,10 +45,8 @@ render(){
                 <li><a href="/#/login">Login</a></li>
             </ul>
         </nav>
-  </div>
+    </div>
   );
-  
-  }
 }
 
 export default SideBar;
