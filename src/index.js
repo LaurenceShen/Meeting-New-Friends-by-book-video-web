@@ -5,6 +5,8 @@ import './index.css';
 import './login.js';
 import SideBar from './sidebar.js';
 import Login from './login.js';
+import User from './user.js';
+import useRWD from './useRWD.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -29,6 +31,29 @@ import { MDBBadge } from 'mdb-react-ui-kit';
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+
+import {
+  MDBTabs,
+  MDBTabsItem,
+  MDBTabsLink,
+  MDBTabsContent,
+  MDBTabsPane,
+  MDBListGroup,
+  MDBListGroupItem,
+} from 'mdb-react-ui-kit';
+
+import { MDBTextArea } from 'mdb-react-ui-kit';
+
+import {
+  MDBModal,
+  MDBModalDialog,
+  MDBModalContent,
+  MDBModalHeader,
+  MDBModalTitle,
+  MDBModalBody,
+  MDBModalFooter,
+} from 'mdb-react-ui-kit';
+
 /*
 class SideBar extends React.Component {
     constructor() {
@@ -121,8 +146,10 @@ function NavBar(){
 }
 
 function SearchBar(){
-
+  const [basicModal, setBasicModal] = useState(false);
+  const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
+  
   return (
     <div className = "Search-Block">
     <div className = "Search-Column">
@@ -130,10 +157,40 @@ function SearchBar(){
         <MDBInput label='Search' />
       </MDBInputGroup>
       </div>
+      <div className = "Search-and-Post">
       <div className = "Search-Button">
         <MDBBtn size='lg'  floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
             <MDBIcon  icon='search' />
         </MDBBtn>
+        &nbsp;
+        &nbsp;
+        <MDBBtn size='lg' onClick={toggleShow} floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
+            <MDBIcon fas icon="edit" />
+        </MDBBtn>
+        <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+        <MDBModalDialog>
+          <MDBModalContent>
+            <MDBModalHeader>
+              <MDBModalTitle>Post!</MDBModalTitle>
+            </MDBModalHeader>
+            <MDBModalBody>
+<MDBTextArea label='Post' id='textAreaExample' rows={4} />
+            </MDBModalBody>
+
+            <MDBModalFooter>
+              <MDBBtn color='secondary' onClick={toggleShow}>
+                Close
+              </MDBBtn>
+        <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }}>
+        <MDBIcon far icon="paper-plane" />
+        </MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+      </div>
+        <div className = "Post">
+      </div>
       </div>
 
     </div>
@@ -208,8 +265,162 @@ function Books(){
   )
 }
 
+function Tab() {
+  const [basicActive, setBasicActive] = useState('tab1');
+  const device=useRWD();
+  const handleBasicClick = (value: string) => {
+    if (value === basicActive) {
+      return;
+    }
+
+    setBasicActive(value);
+  };
+  console.log(device)
+  return (
+    <div className = {(device === "mobile") ? "Tab-mobile" : "Tab"}>
+      <MDBTabs className='mb-3'>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleBasicClick('tab1')} active={basicActive === 'tab1'}>
+          New
+          </MDBTabsLink>
+        </MDBTabsItem>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleBasicClick('tab2')} active={basicActive === 'tab2'}>
+            For you
+          </MDBTabsLink>
+        </MDBTabsItem>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleBasicClick('tab3')} active={basicActive === 'tab3'}>
+            Following
+          </MDBTabsLink>
+        </MDBTabsItem>
+      </MDBTabs>
+
+      <MDBTabsContent>
+        <MDBTabsPane show={basicActive === 'tab1'}><Recommendation/></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab2'}><Recommendation/></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab3'}><Recommendation/></MDBTabsPane>
+      </MDBTabsContent>
+    </div>
+  );
+}
+
+function SideList(){
+
+  return (
+  
+    <div className = "New-Articles">
+    <p> What New </p>
+    <MDBListGroup list-group-transparent  numbered style={{ minWidth: '22rem', background: 'none' }}>
+      <MDBListGroupItem className='d-flex justify-content-between align-items-start'>
+        <div className='ms-2 me-auto'>
+          <div className='fw-bold'>Subheading</div>Cras justo odio
+        </div>
+        <MDBBadge pill light>
+          14
+        </MDBBadge>
+      </MDBListGroupItem>
+      <MDBListGroupItem className='d-flex justify-content-between align-items-start'>
+        <div className='ms-2 me-auto'>
+          <div className='fw-bold'>Subheading</div>Cras justo odio
+        </div>
+        <MDBBadge pill light>
+          14
+        </MDBBadge>
+      </MDBListGroupItem>
+      <MDBListGroupItem className='d-flex justify-content-between align-items-start'>
+        <div className='ms-2 me-auto'>
+          <div className='fw-bold'>Subheading</div>Cras justo odio
+        </div>
+        <MDBBadge pill light>
+          14
+        </MDBBadge>
+      </MDBListGroupItem>
+    </MDBListGroup>
+    <br />
+    <p> Follow them </p>
+
+    <MDBListGroup style={{ minWidth: '22rem' }} light>
+      <MDBListGroupItem className='d-flex justify-content-between align-items-center'>
+        <div className='d-flex align-items-center'>
+          <img
+            src='https://mdbootstrap.com/img/new/avatars/8.jpg'
+            alt=''
+            style={{ width: '45px', height: '45px' }}
+            className='rounded-circle'
+          />
+          <div className='ms-3'>
+            <p className='fw-bold mb-1'>John Doe</p>
+            <p className='text-muted mb-0'>john.doe@gmail.com</p>
+          </div>
+        </div>
+        <MDBBtn size='sm' rounded color='link'>
+          View
+        </MDBBtn>
+      </MDBListGroupItem>
+      <MDBListGroupItem className='d-flex justify-content-between align-items-center'>
+        <div className='d-flex align-items-center'>
+          <img
+            src='https://mdbootstrap.com/img/new/avatars/6.jpg'
+            alt=''
+            style={{ width: '45px', height: '45px' }}
+            className='rounded-circle'
+          />
+          <div className='ms-3'>
+            <p className='fw-bold mb-1'>Alex Ray</p>
+            <p className='text-muted mb-0'>alex.ray@gmail.com</p>
+          </div>
+        </div>
+        <MDBBtn size='sm' rounded color='link'>
+          View
+        </MDBBtn>
+      </MDBListGroupItem>
+      <MDBListGroupItem className='d-flex justify-content-between align-items-center'>
+        <div className='d-flex align-items-center'>
+          <img
+            src='https://mdbootstrap.com/img/new/avatars/7.jpg'
+            alt=''
+            style={{ width: '45px', height: '45px' }}
+            className='rounded-circle'
+          />
+          <div className='ms-3'>
+            <p className='fw-bold mb-1'>Kate Hunington</p>
+            <p className='text-muted mb-0'>kate.hunington@gmail.com</p>
+          </div>
+        </div>
+        <MDBBtn size='sm' rounded color='link'>
+          View
+        </MDBBtn>
+      </MDBListGroupItem>
+    </MDBListGroup>
+    </div>
+  );
+}
+
 class FrontPage extends React.Component {
+    constructor() {
+      super();
+      this.state = {
+        width: window.innerWidth,
+      };
+    }
+
+    componentWillMount() {
+      window.addEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    // make sure to remove the listener
+    // when the component is not mounted anymore
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange = () => {
+      this.setState({ width: window.innerWidth });
+    };
     render(){
+        const { width } = this.state;
+        const isMobile = width <= 500;
         return(
             <div className = "FrontPage">
                 <div className = "User-block">
@@ -219,10 +430,20 @@ class FrontPage extends React.Component {
                 <div className = "Search-Bar">
                     <SearchBar />
                 </div>
-                <div className = "Recommend-Block">
-                    <Recommendation 
-                    />
+                {isMobile ?
+                (<div className = "Article">
+                    <Tab />
+                    <SideList />
                 </div>
+                    ):
+                (<div className = "Articles">
+                    <Tab />
+                    <div className = "New">
+                        <SideList />
+                    </div>
+                </div>)
+                
+                }
             </div>
         );
     }
@@ -244,6 +465,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Login />
         </React.StrictMode>
     </GoogleOAuthProvider> } />
+        <Route path="/user" element={ <User /> } />
       </Routes>
     </HashRouter>
   </React.StrictMode>

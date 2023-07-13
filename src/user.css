@@ -1,0 +1,12 @@
+.User{
+  font: 20px "Century `Gothic", Futura, sans-serif;
+  background: linear-gradient(to right, #FFFFFF, #D3D3D3, #FFFFFF);
+}
+
+.User-block{
+  z-index: 40;
+}
+
+.User-profile{
+  z-index: 1;
+}

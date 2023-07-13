@@ -74,8 +74,8 @@ const logOut = () => {
                     <br />
                     <div className = "Google-Login">
                         <p>Welcome,  {profile.name}!<br /></p>
-                        <a> Write your first post! &nbsp;</a>
-                        <a href = '/#/post'><MDBIcon fas icon="pen-alt" /></a>
+                        <a> Go to write your first post! &nbsp;</a>
+                        <a href = '/'><MDBIcon fas icon="pen-alt" /></a>
                     <br />
                     <br />
                         <button onClick={logOut}>Log out</button>
@@ -87,10 +87,18 @@ const logOut = () => {
                     <br />
                     <br />
                     <div className = "Google-Login">
-                        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+                        <MDBBtn outline rounded color='warning' onClick={() => login()}>Sign in with Google 🚀 </MDBBtn>
                     </div>
             </div>
                 )}
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </div>
     );
 }

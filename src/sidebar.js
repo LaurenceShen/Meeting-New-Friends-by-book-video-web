@@ -60,44 +60,23 @@ render(){
     //location!
     const { width } = this.state;
     const isMobile = width <= 500;
-  if (isMobile){
   return (
     <div className='User-icon'>
-        <nav className = "menu_mobile">
-        <a href = "/" className = "icon">
+        <nav className = {isMobile ? ("menu_mobile") : ("menu")}>
             <div className='icon-img'>
                 <MDBIcon fas icon="user-circle" size = '2x'/>
             </div>
-        </a>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="/#/user">User</a></li>
+                <li><a href="/#/user">For you</a></li>
                 <li><a href="/#/login">Login</a></li>
             </ul>
         </nav>
   </div>
   );
   
-  }else{
-  return (
-    <div className='User-icon'>
-        <nav className = "menu">
-        <a href = "/" className = "icon">
-            <div className='icon-img'>
-                <MDBIcon fas icon="user-circle" size = '2x' />
-            </div>
-        </a>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="#/about">About</a></li>
-                <li><a href="#/contact">Contact</a></li>
-                <li><a href="#/login">Login</a></li>
-            </ul>
-        </nav>
-  </div>
-  );
   }
 }
-}
+
 export default SideBar;

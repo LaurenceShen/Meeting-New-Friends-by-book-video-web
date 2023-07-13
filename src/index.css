@@ -1,6 +1,11 @@
 .FrontPage{
   font: 20px "Century `Gothic", Futura, sans-serif;
-  background: linear-gradient(to top, #FFFFFF, #D3D3D3, #FFFFFF);
+  /*background: linear-gradient(to top, #FFFFFF, #D3D3D3, #FFFFFF);*/
+}
+
+.Articles{
+  display: flex;
+  flex-direction:row;
 }
 
 .Title{
@@ -18,6 +23,30 @@
     padding-left:5%;
 }
 
+.Tab{
+    padding-top:5%;
+    padding-right:5%;
+    padding-left:5%;
+    width: 80%;
+}
+
+.Tab_mobile{
+    padding-top:5%;
+    padding-left:5%;
+    width: 80%;
+}
+
+.New{
+    padding-top:5%;
+    padding-right:5%;
+}
+
+.New-Articles{
+    padding-top:25%;
+    padding-left:2%;
+    padding-right:2%;
+    font-size: 80%;
+}
 
 .Search-Bar{
     height: 100%;
@@ -32,14 +61,31 @@
 
 }
 
+.Search-and-Post{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  padding-top:1%;
+  padding-bottom:1%;
+}
+
 .Search-Button{
     display: flex;
     justify-content: center;
     padding-top:1%;
-    padding-bottom:3%;
 }
+
+.Post{
+    display: flex;
+    justify-content: center;
+    padding-top:1%;
+    padding-right:5%;
+    padding-left:5%;
+    text-align: center;
+}
+
 .menu {
-  position: fixed;
+  position: absolute;
   padding-left:2%;
   width: 3%;
   height: 3%;
@@ -152,7 +198,7 @@
 
 
 .menu_mobile {
-  position: fixed;
+  position: absolute;
   padding-left:2%;
   width: 3%;
   height: 3%;
