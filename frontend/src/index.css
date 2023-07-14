@@ -1,0 +1,316 @@
+.FrontPage{
+  font: 20px "Century `Gothic", Futura, sans-serif;
+  /*background: linear-gradient(to top, #FFFFFF, #D3D3D3, #FFFFFF);*/
+}
+
+.Articles{
+  display: flex;
+  flex-direction:row;
+}
+
+.Title{
+    padding-top:2%;
+    padding-bottom:2%;
+    text-align: center;
+}
+
+.Nav-Bar{
+    height: 100%;
+}
+
+.User-block{
+    padding-top:5%;
+    padding-left:5%;
+}
+
+.Tab{
+    padding-top:5%;
+    padding-right:5%;
+    padding-left:5%;
+    width: 80%;
+}
+
+.Tab_mobile{
+    padding-top:5%;
+    padding-left:5%;
+    width: 80%;
+}
+
+.New{
+    padding-top:5%;
+    padding-right:5%;
+}
+
+.New-Articles{
+    padding-top:25%;
+    padding-left:2%;
+    padding-right:2%;
+    font-size: 80%;
+}
+
+.Search-Bar{
+    height: 100%;
+}
+
+.Search-Column{
+    display: flex;
+    justify-content: center;
+    padding: 1% 30%;
+    width: 100%;
+    height: 500%;
+
+}
+
+.Search-and-Post{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  padding-top:1%;
+  padding-bottom:1%;
+}
+
+.Search-Button{
+    display: flex;
+    justify-content: center;
+    padding-top:1%;
+}
+
+.Post{
+    display: flex;
+    justify-content: center;
+    padding-top:1%;
+    padding-right:5%;
+    padding-left:5%;
+    text-align: center;
+}
+
+.Carousel{
+    padding-right:5%;
+    padding-left:5%;
+}
+
+.menu {
+  position: absolute;
+  padding-left:2%;
+  width: 3%;
+  height: 3%;
+  cursor: pointer;
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+}
+.menu li {
+  width: 5em;
+  height: 2%;
+  padding: 0.2em;
+  margin-top: 0.2em;
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  transition: all 1s;
+  background: none;
+  opacity: 0;
+  z-index: -1;
+}
+.menu:hover li {
+  opacity: 1;
+}
+/**
+ * Add a pseudo element to cover the space
+ * between the links. This is so the menu
+ * does not lose :hover focus and disappear
+ */
+.menu:hover ul::before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  display: block;
+  left: 50%;
+  top: -5.0em;
+  /**
+   * The pseudo-element is a semi-circle
+   * created with CSS. Top, bottom, and right
+   * borders are 6.5em (left being 0), and then
+   * a border-radius is added to the two corners
+   * on the right.
+   */
+  border-width: 5em;
+  border-radius: 0 7.5em 7.5em 0;
+  border-left: 0;
+  border-style: solid;
+  /**
+   * Have to have a border color for the border
+   * to be hoverable. I'm using a very light one
+   * so that it looks invisible.
+   */
+  border-color: rgba(211,211,211,0.01);
+  /**
+   * Put the psuedo-element behind the links
+   * (So they can be clicked on)
+   */
+  z-index: -1;
+  /**
+   * Make the cursor default so it looks like
+   * nothing is there
+   */
+  cursor: default;
+}
+.menu a {
+  color: 	black;
+  text-decoration: none;
+  /**
+   * This is to vertically center the text on the
+   * little tab-like things that the text is on.
+   */
+  line-height: 1.5em;
+}
+.menu ul {
+  transform: rotate(180deg) translateY(-2em);
+  transition: 1s all;
+}
+.menu:hover ul {
+  transform: rotate(0deg) translateY(-1em);
+}
+.menu li:hover {
+  background: 	#B0C4DE;
+  z-index: 10;
+}
+
+.menu li:nth-of-type(1) {
+  position: absolute;
+  left: 4.8em;
+  top: -1em;
+}
+.menu li:nth-of-type(2) {
+  transform: rotate(30deg);
+  position: absolute;
+  left: 4.1em;
+  top: 2.1em;
+}
+.menu li:nth-of-type(3) {
+  transform: rotate(60deg);
+  position: absolute;
+  left: 2.1em;
+  top: 4.4em;
+}
+.menu li:nth-of-type(4) {
+  transform: rotate(75deg);
+  position: absolute;
+  left: -0.4em;
+  top: 5.6em;
+}
+
+
+.menu_mobile {
+  position: absolute;
+  padding-left:2%;
+  width: 3%;
+  height: 3%;
+  cursor: pointer;
+}
+.menu_mobile ul {
+  list-style: none;
+  padding: 0;
+}
+.menu_mobile li {
+  width: 5em;
+  height: 2%;
+  padding: 0.2em;
+  margin-top: 0.2em;
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  transition: all 1s;
+  background: none;
+  opacity: 0;
+  z-index: -1;
+}
+.menu_mobile:hover li {
+  opacity: 1;
+}
+/**
+ * Add a pseudo element to cover the space
+ * between the links. This is so the menu
+ * does not lose :hover focus and disappear
+ */
+.menu_mobile:hover ul::before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  display: block;
+  left: 50%;
+  top: -5.0em;
+  /**
+   * The pseudo-element is a semi-circle
+   * created with CSS. Top, bottom, and right
+   * borders are 6.5em (left being 0), and then
+   * a border-radius is added to the two corners
+   * on the right.
+   */
+  border-width: 5em;
+  border-radius: 0 5.5em 5.5em 0;
+  border-left: 0;
+  border-style: solid;
+  /**
+   * Have to have a border color for the border
+   * to be hoverable. I'm using a very light one
+   * so that it looks invisible.
+   */
+  border-color: rgba(211,211,211,0.01);
+  /**
+   * Put the psuedo-element behind the links
+   * (So they can be clicked on)
+   */
+  z-index: -1;
+  /**
+   * Make the cursor default so it looks like
+   * nothing is there
+   */
+  cursor: default;
+}
+.menu_mobile a {
+  color: 	black;
+  text-decoration: none;
+  font-size: 1%;
+  /**
+   * This is to vertically center the text on the
+   * little tab-like things that the text is on.
+   */
+  line-height: 1.5em;
+}
+.menu_mobile ul {
+  transform: rotate(180deg) translateY(-2em);
+  transition: 1s all;
+}
+.menu_mobile:hover ul {
+  transform: rotate(0deg) translateY(-1em);
+}
+.menu_mobile li:hover {
+  background: none;
+  z-index: 10;
+}
+
+.menu_mobile li:nth-of-type(1) {
+  position: absolute;
+  left: 3em;
+  top: -1.3em;
+}
+.menu_mobile li:nth-of-type(2) {
+  transform: rotate(25deg);
+  position: absolute;
+  left: 3em;
+  top: 1em;
+}
+.menu_mobile li:nth-of-type(3) {
+  transform: rotate(60deg);
+  position: absolute;
+  left: 1.5em;
+  top: 3em;
+}
+.menu_mobile li:nth-of-type(4) {
+  transform: rotate(75deg);
+  position: absolute;
+  left: -0.4em;
+  top: 3.6em;
+}
