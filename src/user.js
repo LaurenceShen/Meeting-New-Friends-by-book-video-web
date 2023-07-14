@@ -6,6 +6,7 @@ import SideBar from './sidebar.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import useRWD from './useRWD.js';
 import { MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 import { MDBCol, MDBRow } from 'mdb-react-ui-kit';
 import {
@@ -30,12 +31,13 @@ import { MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from '
 
 function User(){
 
+  const device = useRWD();
   return (
     <div className="User">
             <div className = "User-block">
                 <SideBar />
             </div>
-    <div className = "User-profile">
+    <div className = { device === "mobile" ? ("User-profile-mobile") : ("User-profile")}>
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="9" xl="9">

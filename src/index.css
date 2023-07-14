@@ -84,6 +84,11 @@
     text-align: center;
 }
 
+.Carousel{
+    padding-right:5%;
+    padding-left:5%;
+}
+
 .menu {
   position: absolute;
   padding-left:2%;

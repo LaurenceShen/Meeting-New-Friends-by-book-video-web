@@ -54,6 +54,11 @@ import {
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
 
+import {
+  MDBCarousel,
+  MDBCarouselItem,
+} from 'mdb-react-ui-kit';
+
 /*
 class SideBar extends React.Component {
     constructor() {
@@ -267,7 +272,7 @@ function Books(){
 
 function Tab() {
   const [basicActive, setBasicActive] = useState('tab1');
-  const device=useRWD();
+  const device = useRWD();
   const handleBasicClick = (value: string) => {
     if (value === basicActive) {
       return;
@@ -275,7 +280,6 @@ function Tab() {
 
     setBasicActive(value);
   };
-  console.log(device)
   return (
     <div className = {(device === "mobile") ? "Tab-mobile" : "Tab"}>
       <MDBTabs className='mb-3'>
@@ -298,7 +302,7 @@ function Tab() {
 
       <MDBTabsContent>
         <MDBTabsPane show={basicActive === 'tab1'}><Recommendation/></MDBTabsPane>
-        <MDBTabsPane show={basicActive === 'tab2'}><Recommendation/></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab2'}><Carousel/></MDBTabsPane>
         <MDBTabsPane show={basicActive === 'tab3'}><Recommendation/></MDBTabsPane>
       </MDBTabsContent>
     </div>
@@ -393,6 +397,52 @@ function SideList(){
         </MDBBtn>
       </MDBListGroupItem>
     </MDBListGroup>
+    </div>
+  );
+}
+
+function Carousel(){
+  return (
+    <div className = "Carousel">
+        <h3 className = "Title"> Recommend </h3>
+        <br />
+    <MDBCarousel showIndicators showControls fade>
+    <div className = "Carousel-inner">
+      <MDBCarouselItem
+        itemId={1}
+        interval={700}
+      >
+    <div className = "Carousel-images">
+      <li>
+      <img
+        src='x.jpeg'
+        alt='...'
+      />
+       </li>
+       <li>
+       <img  
+        className='w-100 d-block'
+        itemId={2}
+        interval={700}
+        src='https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg'
+        alt='...'
+      />
+      </li>
+      </div>
+      </MDBCarouselItem>
+
+      <MDBCarouselItem
+        className='w-100 d-block'
+        itemId={3}
+        interval={700}
+        src='https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg'
+        alt='...'
+      >
+        <h5>Third slide label</h5>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+      </MDBCarouselItem>
+      </div>
+    </MDBCarousel>
     </div>
   );
 }
