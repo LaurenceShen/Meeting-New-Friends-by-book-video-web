@@ -7,6 +7,10 @@
   z-index: 40;
 }
 
+.User-profile{
+    display: block;
+    padding-top:5%;
+}
 .User-profile-mobile{
     display: block;
     padding-top:20%;

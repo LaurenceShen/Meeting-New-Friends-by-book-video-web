@@ -435,7 +435,7 @@ function Tab() {
 
       <MDBTabsContent>
         <MDBTabsPane show={basicActive === 'tab1'}><Recommendation/></MDBTabsPane>
-        <MDBTabsPane show={basicActive === 'tab2'}><Carousel items = {items} active={0} /><br /><br /><br /><br /><br /><br /><br /><br /><br /><Table /><Recommendation /></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab2'}><Carousel items = {items} active={0} /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><Table /><Recommendation /></MDBTabsPane>
         <MDBTabsPane show={basicActive === 'tab3'}><Table /></MDBTabsPane>
       </MDBTabsContent>
     </div>
