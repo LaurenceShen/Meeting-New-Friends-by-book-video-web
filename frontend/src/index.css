@@ -323,6 +323,7 @@
     height: 20%;
     width: 105%;
     padding-top:5%;
+    margin: auto;
 }
 
 .arrow {
@@ -347,7 +348,7 @@
 
 .item {
     text-align: center;
-    color: black;
+    color: white;
     font-size: 10%;
     position: absolute;
     transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s, background-color 1s;
@@ -360,7 +361,7 @@
     width: 6%;
     line-height: 80%;
     background-color: #228291;
-    left: 43%;
+    left: 65%;
     margin-top:1%;
 }
 
@@ -369,16 +370,17 @@
     width: 7%;
     line-height: 90%;
     background-color: #6796E5;
-    left: 34%;
+    left: 36%;
     margin-top: 0.5%;
 }
 
 .level0 {
-    height: 100%;
-    width: 8%;
+    height: 132%;
+    width: 10%;
     line-height: 100%;
     background-color: #4EC9E1;
     left: 24.5%;
+    margin-top: -0.9%;
 }
 
 .level1 {
@@ -396,9 +398,9 @@
     line-height: 80%;
     background-color: #228291;
     margin-top: 1%;
-    left: 8%;
+    left: -20%;
 }
-
+/*
 .left-enter {
     opacity: 0;
     left: 5%;
@@ -441,7 +443,7 @@
     opacity: 0;
     left: 46%;
     height: 70%;
-    width: 6%;
+    width: 5%;
     line-height: 70%;
     margin-top: 4%;
 }
@@ -474,7 +476,7 @@
     margin-top: 4%;
     transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s, line-height 1s;
 }
-
+*/
 .noselect {
     -webkit-user-select: none;
      -khtml-user-select: none;
