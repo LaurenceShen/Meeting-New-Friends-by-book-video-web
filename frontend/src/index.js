@@ -6,6 +6,7 @@ import './login.js';
 import SideBar from './sidebar.js';
 import Login from './login.js';
 import User from './user.js';
+import Dating from './dating.js';
 import useRWD from './useRWD.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
@@ -55,8 +56,36 @@ import {
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
 
+
 import {ChatProvider,useChat} from './useChat.js'
-/* 
+
+import {
+  MDBCarousel,
+  MDBCarouselItem,
+} from 'mdb-react-ui-kit';
+
+import {TransitionGroup} from 'react-transition-group';
+
+import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+
+var items = ['1.jpeg','2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg', '6.jpeg', '7.jpeg', '8.jpeg', '9.jpeg', '10.jpeg']
+//var items = ['1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+/*
+var items = [
+            'https://mdbootstrap.com/img/new/standard/city/042.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/043.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/044.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/045.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/046.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/047.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/048.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/049.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/050.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/051.jpg',
+            'https://mdbootstrap.com/img/new/standard/city/052.jpg',
+        ]
+*/
+/*
 class SideBar extends React.Component {
     constructor() {
       super(); 
@@ -118,6 +147,44 @@ render(){
 }
 } 
 */
+function Table(){
+  return (
+    <MDBTable align='middle'>
+      <MDBTableHead alogn = 'middle'>
+      </MDBTableHead>
+      <MDBTableBody>
+        <tr>
+          <td>
+            <div className='d-flex align-items-center'>
+              <img
+                src='1.jpeg'
+                alt=''
+                style={{ width: '60%', height: '80%' }}
+              />
+            </div>
+          </td>
+          <td style = {{width: "75%"}}>創作，直到生命的最後一刻──<br/>
+世界級的音樂家．人生的精彩終章<br/>
+從《音樂使人自由》到《我還能再看到幾次滿月？》，以文字為樂器書寫留給後世的決定性自傳。</td>
+        </tr>
+        <tr>
+          <td>
+            <div className='d-flex align-items-center'>
+              <img
+                src='2.jpeg'
+                alt=''
+                style={{ width: '60%', height: '80%' }}
+              />
+            </div>
+          </td>
+          <td style = {{width: "75%"}}>南迴鐵路是台灣最美麗、最寂寞的鐵道，也是收藏島嶼記憶最深情的祕境。<br/>
+我想說的不只是火車的故事，而是我們在台灣共同的成長記憶！<br/></td>
+        </tr>
+      </MDBTableBody>
+    </MDBTable>
+  );
+}
+
 function NavBar(){
     const [showNavRight, setShowNavRight] = useState(false);
   return (
@@ -294,7 +361,7 @@ function Books(){
 
 function Tab() {
   const [basicActive, setBasicActive] = useState('tab1');
-  const device=useRWD();
+  const device = useRWD();
   const handleBasicClick = (value: string) => {
     if (value === basicActive) {
       return;
@@ -303,6 +370,7 @@ function Tab() {
     setBasicActive(value);
   }; 
   console.log(device)
+
   return (
     <div className = {(device === "mobile") ? "Tab-mobile" : "Tab"}>
       <MDBTabs className='mb-3'>
@@ -325,8 +393,8 @@ function Tab() {
 
       <MDBTabsContent>
         <MDBTabsPane show={basicActive === 'tab1'}><Recommendation/></MDBTabsPane>
-        <MDBTabsPane show={basicActive === 'tab2'}><Recommendation/></MDBTabsPane>
-        <MDBTabsPane show={basicActive === 'tab3'}><Recommendation/></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab2'}><Carousel items = {items} active={0} /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><Table /><Recommendation /></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab3'}><Table /></MDBTabsPane>
       </MDBTabsContent>
     </div>
   );
@@ -423,6 +491,135 @@ function SideList(){
     </div>
   );
 }
+/*
+function Carousel(){
+  return (
+    <div className = "Carousel">
+        <h3 className = "Title"> Recommend </h3>
+        <br />
+    <MDBCarousel showIndicators showControls fade>
+    <div className = "Carousel-inner">
+      <MDBCarouselItem
+        itemId={1}
+        interval={700}
+      >
+    <div className = "Carousel-images">
+      <li>
+      <img
+        src='x.jpeg'
+        alt='...'
+      />
+       </li>
+       <li>
+       <img  
+        className='w-100 d-block'
+        itemId={2}
+        interval={700}
+        src='https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg'
+        alt='...'
+      />
+      </li>
+      </div>
+      </MDBCarouselItem>
+
+      <MDBCarouselItem
+        className='w-100 d-block'
+        itemId={3}
+        interval={700}
+        src='https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg'
+        alt='...'
+      >
+        <h5>Third slide label</h5>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+      </MDBCarouselItem>
+      </div>
+    </MDBCarousel>
+    </div>
+  );
+}
+*/
+class Carousel extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            items: this.props.items,
+            active: this.props.active,
+            direction: ''
+        }
+        this.rightClick = this.moveRight.bind(this)
+        this.leftClick = this.moveLeft.bind(this)
+    }
+
+    generateItems() {
+        var items = []
+        var level
+        console.log(this.state.active)
+        for (var i = (this.state.active - 2); i <= this.state.active + 2; i++) {
+            var index = i
+            if (i < 0) {
+                index = this.state.items.length + i
+            } else if (i >= this.state.items.length) {
+                index = i % this.state.items.length
+            }
+            level = this.state.active - i
+            items.push(<Item key={index} id={this.state.items[index]} level={level} />)
+        }
+        return items
+    }
+    
+    moveLeft() {
+        var newActive = this.state.active
+        newActive--
+        this.setState({
+            active: newActive < 0 ? this.state.items.length - 1 : newActive,
+            direction: 'left'
+        })
+    }
+    
+    moveRight() {
+        var newActive = this.state.active
+        this.setState({
+            active: (newActive + 1) % this.state.items.length,
+            direction: 'right'
+        })
+    }
+    /*
+                <div className="arrow arrow-left" onClick={this.leftClick}>
+                    <MDBIcon fas icon="angle-double-left" />
+                </div>
+    */
+    render() {
+        return(
+            <div id="carousel" className="noselect">
+                <TransitionGroup
+                    transitionName={this.state.direction}>
+                    {this.generateItems()}
+                </TransitionGroup>
+                <div className="arrow arrow-right" onClick={this.rightClick}>
+                    <MDBIcon fas icon="angle-double-right" />
+                </div>
+            </div>
+        )
+    }
+}
+
+class Item extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            level: this.props.level
+        }
+    }
+
+    render() {
+        const className = 'item level' + this.props.level
+        return(
+            <div className={className}>
+                <img src = {this.props.id} style = {{width : "100%", height:"100%"}} />
+            </div>
+        )
+    }
+}
 
 function FrontPage () {
         const device = useRWD();
@@ -431,6 +628,9 @@ function FrontPage () {
             <div className = "FrontPage">
                 <div className = "User-block">
                     <SideBar />
+                    <div className = "message">
+                    <MDBIcon fas icon="comment" size = "2x"/>
+                    </div >
                 </div>
                 <h2 className = "Title"> Search! </h2>
                 <div className = "Search-Bar">
@@ -472,6 +672,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </React.StrictMode>
     </GoogleOAuthProvider> } />
         <Route path="/user" element={ <User /> } />
+        <Route path="/dating" element={ <Dating /> } />
       </Routes>
     </HashRouter>
     </ChatProvider>

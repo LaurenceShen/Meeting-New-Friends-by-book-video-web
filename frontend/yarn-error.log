@@ -1,0 +1,78 @@
+Arguments: 
+  /home/jeff/.nvm/versions/node/v18.16.1/bin/node /home/jeff/.nvm/versions/node/v18.16.1/bin/yarn start
+
+PATH: 
+  /home/jeff/.vscode-server/bin/74f6148eb9ea00507ec113ec51c489d6ffb4b771/bin/remote-cli:/home/jeff/.nvm/versions/node/v18.16.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/TortoiseGit/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/Vim/vim90:/mnt/c/MinGW/bin/:/mnt/c/Program Files/MATLAB/R2023a/runtime/win64:/mnt/c/Program Files/MATLAB/R2023a/bin:/mnt/c/Program Files/MEGA11:/mnt/c/Users/Jeff/方世昕/AppData/Local/Microsoft/WindowsApps:/mnt/c/MinGW/bin/":/mnt/c/Users/Jeff/方世昕/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.16.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/jeff/Web/package.json: Unexpected token < in JSON at position 2
+      at JSON.parse (<anonymous>)
+      at /home/jeff/.nvm/versions/node/v18.16.1/lib/node_modules/yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/home/jeff/.nvm/versions/node/v18.16.1/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /home/jeff/.nvm/versions/node/v18.16.1/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "web",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "@fortawesome/fontawesome-free": "^6.4.0",
+      "@react-oauth/google": "^0.11.0",
+      "@testing-library/jest-dom": "^5.16.5",
+      "@testing-library/react": "^13.4.0",
+      "@testing-library/user-event": "^13.5.0",
+      "axios": "^1.4.0",
+      "mdb-react-ui-kit": "^6.1.0",
+      "react": "^18.2.0",
+      "react-bootstrap-sidebar-menu": "^2.0.3",
+      "react-click-away-listener": "^2.2.3",
+      "react-dom": "^18.2.0",
+      "react-router-dom": "^6.14.1",
+      "react-scripts": "5.0.1",
+  
+      "react-transition-group": "^4.4.5",
+  
+      "web-vitals": "^2.1.4"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+      "extends": [
+        "react-app",
+        "react-app/jest"
+      ]
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

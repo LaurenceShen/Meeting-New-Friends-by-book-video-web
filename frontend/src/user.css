@@ -8,5 +8,10 @@
 }
 
 .User-profile{
-  z-index: 1;
+    display: block;
+    padding-top:5%;
+}
+.User-profile-mobile{
+    display: block;
+    padding-top:20%;
 }
