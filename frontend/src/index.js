@@ -146,108 +146,35 @@ render(){
 function Table(){
   return (
     <MDBTable align='middle'>
-      <MDBTableHead>
-        <tr>
-          <th scope='col'>Name</th>
-          <th scope='col'>Title</th>
-          <th scope='col'>Status</th>
-          <th scope='col'>Position</th>
-          <th scope='col'>Actions</th>
-        </tr>
+      <MDBTableHead alogn = 'middle'>
       </MDBTableHead>
       <MDBTableBody>
         <tr>
           <td>
             <div className='d-flex align-items-center'>
               <img
-                src='https://mdbootstrap.com/img/new/avatars/8.jpg'
+                src='1.jpeg'
                 alt=''
-                style={{ width: '45px', height: '45px' }}
-                className='rounded-circle'
+                style={{ width: '60%', height: '80%' }}
               />
-              <div className='ms-3'>
-                <p className='fw-bold mb-1'>John Doe</p>
-                <p className='text-muted mb-0'>john.doe@gmail.com</p>
-              </div>
             </div>
           </td>
-          <td>
-            <p className='fw-normal mb-1'>Software engineer</p>
-            <p className='text-muted mb-0'>IT department</p>
-          </td>
-          <td>
-            <MDBBadge color='success' pill>
-              Active
-            </MDBBadge>
-          </td>
-          <td>Senior</td>
-          <td>
-            <MDBBtn color='link' rounded size='sm'>
-              Edit
-            </MDBBtn>
-          </td>
+          <td style = {{width: "75%"}}>創作，直到生命的最後一刻──<br/>
+世界級的音樂家．人生的精彩終章<br/>
+從《音樂使人自由》到《我還能再看到幾次滿月？》，以文字為樂器書寫留給後世的決定性自傳。</td>
         </tr>
         <tr>
           <td>
             <div className='d-flex align-items-center'>
               <img
-                src='https://mdbootstrap.com/img/new/avatars/6.jpg'
+                src='2.jpeg'
                 alt=''
-                style={{ width: '45px', height: '45px' }}
-                className='rounded-circle'
+                style={{ width: '60%', height: '80%' }}
               />
-              <div className='ms-3'>
-                <p className='fw-bold mb-1'>Alex Ray</p>
-                <p className='text-muted mb-0'>alex.ray@gmail.com</p>
-              </div>
             </div>
           </td>
-          <td>
-            <p className='fw-normal mb-1'>Consultant</p>
-            <p className='text-muted mb-0'>Finance</p>
-          </td>
-          <td>
-            <MDBBadge color='primary' pill>
-              Onboarding
-            </MDBBadge>
-          </td>
-          <td>Junior</td>
-          <td>
-            <MDBBtn color='link' rounded size='sm'>
-              Edit
-            </MDBBtn>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div className='d-flex align-items-center'>
-              <img
-                src='https://mdbootstrap.com/img/new/avatars/7.jpg'
-                alt=''
-                style={{ width: '45px', height: '45px' }}
-                className='rounded-circle'
-              />
-              <div className='ms-3'>
-                <p className='fw-bold mb-1'>Kate Hunington</p>
-                <p className='text-muted mb-0'>kate.hunington@gmail.com</p>
-              </div>
-            </div>
-          </td>
-          <td>
-            <p className='fw-normal mb-1'>Designer</p>
-            <p className='text-muted mb-0'>UI/UX</p>
-          </td>
-          <td>
-            <MDBBadge color='warning' pill>
-              Awaiting
-            </MDBBadge>
-          </td>
-          <td>Senior</td>
-          <td>
-            <MDBBtn color='link' rounded size='sm'>
-              Edit
-            </MDBBtn>
-          </td>
+          <td style = {{width: "75%"}}>南迴鐵路是台灣最美麗、最寂寞的鐵道，也是收藏島嶼記憶最深情的祕境。<br/>
+我想說的不只是火車的故事，而是我們在台灣共同的成長記憶！<br/></td>
         </tr>
       </MDBTableBody>
     </MDBTable>
@@ -669,6 +596,9 @@ function FrontPage () {
             <div className = "FrontPage">
                 <div className = "User-block">
                     <SideBar />
+                    <div className = "message">
+                    <MDBIcon fas icon="comment" size = "2x"/>
+                    </div >
                 </div>
                 <h2 className = "Title"> Search! </h2>
                 <div className = "Search-Bar">
