@@ -38,7 +38,6 @@ function Login(){
         onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
     });
-
     useEffect(
         () => {
             if (user) {

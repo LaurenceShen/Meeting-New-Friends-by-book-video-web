@@ -214,12 +214,18 @@ function NavBar(){
 }
 
 function SearchBar(){
+  const {books, status, post, sendPost}=useChat()
   const [basicModal, setBasicModal] = useState(false);
+  const [newpost, setnewPost] = useState('');
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
-
+  let handlePost = () => {
+    sendPost(newpost);
+    setBasicModal(!basicModal);
+    setnewPost('');
+  }
   return (
-    <div className = "Search-Block">    
+    <div className = "Search-Block">
     <div className = "Search-Column">
       <MDBInputGroup> 
         <MDBInput label='Search' />
@@ -228,7 +234,7 @@ function SearchBar(){
       <div className = "Search-and-Post"> 
       <div className = "Search-Button">
         <MDBBtn size='lg'  floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
-            <MDBIcon  icon='search' />       
+            <MDBIcon  icon='search' />
         </MDBBtn>  
         &nbsp;
         &nbsp;
@@ -242,28 +248,26 @@ function SearchBar(){
               <MDBModalTitle>Post!</MDBModalTitle>
             </MDBModalHeader>
             <MDBModalBody>
-<MDBTextArea label='Post' id='textAreaExample' rows={4} />
+                <MDBTextArea label='Post' id='textAreaExample' value ={newpost} rows={4} onChange = {(e) => setnewPost(e.target.value)} />
             </MDBModalBody>
-
             <MDBModalFooter>
               <MDBBtn color='secondary' onClick={toggleShow}>
                 Close
               </MDBBtn>
-        <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }}>
-        <MDBIcon far icon="paper-plane" />
-        </MDBBtn>
+              <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost(newpost)}>
+                <MDBIcon far icon="paper-plane" />
+              </MDBBtn>
             </MDBModalFooter> 
           </MDBModalContent>
         </MDBModalDialog>
       </MDBModal>
-      </div>
-        <div className = "Post">
       </div>
       </div>
 
     </div>
   );
 }
+
 
 class Recommendation extends React.Component {
     render(){
@@ -279,7 +283,7 @@ let egg=true;
 function Books(){
     const {books,status,sendMessage}=useChat()
     const [start,setStart]=useState(false);
-    const [imgs,setImgs]=useState([    
+    const [imgs,setImgs]=useState([
       [ 
         'https://mdbootstrap.com/img/new/standard/city/041.jpg',
           'https://mdbootstrap.com/img/new/standard/city/042.jpg',
@@ -301,15 +305,15 @@ function Books(){
           'https://mdbootstrap.com/img/new/standard/city/052.jpg',
       ],
   ]  )
-    
-    useEffect(()=>{   
+
+    useEffect(()=>{
       if(egg){
         sendMessage("hehe");
         console.log('hoho')  
         egg=false;
       }
+    })
 
-    })   
     useEffect(()=>{
       if(books.length){
         console.log(books);
@@ -361,6 +365,8 @@ function Books(){
 
 function Tab() {
   const [basicActive, setBasicActive] = useState('tab1');
+  const [mypost, setmyPost] = useState([]);
+  const {books, status, post, sendPost} = useChat();
   const device = useRWD();
   const handleBasicClick = (value: string) => {
     if (value === basicActive) {
@@ -369,7 +375,12 @@ function Tab() {
 
     setBasicActive(value);
   }; 
-  console.log(device)
+
+  useEffect(()=>{
+    setmyPost(post)
+    console.log("ssssssssssssssssssssshere:"+mypost)
+  },[post])
+
 
   return (
     <div className = {(device === "mobile") ? "Tab-mobile" : "Tab"}>
@@ -389,12 +400,18 @@ function Tab() {
             Following
           </MDBTabsLink>
         </MDBTabsItem>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleBasicClick('tab4')} active={basicActive === 'tab4'}>
+            Your Post
+          </MDBTabsLink>
+        </MDBTabsItem>
       </MDBTabs>
 
       <MDBTabsContent>
         <MDBTabsPane show={basicActive === 'tab1'}><Recommendation/></MDBTabsPane>
         <MDBTabsPane show={basicActive === 'tab2'}><Carousel items = {items} active={0} /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><Table /><Recommendation /></MDBTabsPane>
         <MDBTabsPane show={basicActive === 'tab3'}><Table /></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab4'}>{mypost.map((i)=><li>{i}</li>)}</MDBTabsPane>
       </MDBTabsContent>
     </div>
   );
@@ -624,7 +641,7 @@ class Item extends React.Component {
 function FrontPage () {
         const device = useRWD();
 
-        return(  
+        return(
             <div className = "FrontPage">
                 <div className = "User-block">
                     <SideBar />
@@ -672,7 +689,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </React.StrictMode>
     </GoogleOAuthProvider> } />
         <Route path="/user" element={ <User /> } />
-        <Route path="/dating" element={ <Dating /> } />
+        <Route path="/matching" element={ <Dating /> } />
       </Routes>
     </HashRouter>
     </ChatProvider>
