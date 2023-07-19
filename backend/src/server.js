@@ -64,6 +64,7 @@ const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 const db = mongoose.connection  
 dotenv.config();
+
 const saveUser = async (id, name) => {
     const existing = await egg.findOne({ name });
     if (existing) throw new Error(`data ${name} exists!!`);
@@ -73,6 +74,7 @@ const saveUser = async (id, name) => {
     return newUser.save();
     } catch (e) { throw new Error("User creation error: " + e); }
    };
+
 db.once('open', () => {
     console.log("MongoDB connected!");
     // saveUser(8,'mongo')
@@ -91,7 +93,7 @@ db.once('open', () => {
         // ws.on('message', data => { 
         //     ws.send(data)
         // })
-    
+
         ws.on('close', () => {
             console.log('Close connected')
         })

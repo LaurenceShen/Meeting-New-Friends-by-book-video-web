@@ -1,24 +1,31 @@
-
 import { useState ,useEffect, useContext,createContext} from "react";
 let client = new WebSocket('ws://localhost:4000')
 const ChatContext=createContext({ 
     books:[],
-    status:{}, 
+    status:{},
+    post:'',
     sendMessage:()=>{},           
+    sendPost:()=>{},           
     clearMessages:()=>{},  
 });            
 //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行  
 const ChatProvider=(props)=>{    
     const [books,setBooks]=useState([]);  
+    const [post,setPost]=useState([]);  
     const [status,setStatus]=useState({});   
     client.onmessage=(byteString)=>{  
         const {data}=byteString; 
         const [task,payload]=JSON.parse(data);
-        console.log('client task:'+task); 
+        console.log('client task:' + task); 
         switch(task){ 
             case 'output':{  
                 setBooks([...books,...[...new Set(payload)]]);
-                console.log("yayaya"+payload)  
+                console.log("yayaya"+payload); 
+                break;
+            } 
+            case 'post':{  
+                setPost([...post,payload]);
+                console.log("yayaya"+payload);
                 break;
             } 
                  
@@ -34,6 +41,12 @@ const ChatProvider=(props)=>{
         console.log("ok");
         Newsend(["init",payload]); 
     }
+
+    const sendPost=(payload)=>{ 
+        console.log("ok");
+        Newsend(["post",payload]); 
+    }
+
     const clearMessages=()=>{
         sendData(['clear']);
     };
@@ -58,8 +71,8 @@ const ChatProvider=(props)=>{
     return ( 
         <ChatContext.Provider
             value={{
-                status,books,
-                sendMessage,clearMessages
+                status,books,post,
+                sendMessage,clearMessages,sendPost
             }}
             {...props}   
         />

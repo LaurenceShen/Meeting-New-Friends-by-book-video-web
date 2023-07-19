@@ -41,7 +41,7 @@ function SideBar(){
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/#/user">User</a></li>
-                <li><a href="/#/dating">Dating</a></li>
+                <li><a href="/#/matching">Matching</a></li>
                 <li><a href="/#/login">Login</a></li>
             </ul>
         </nav>

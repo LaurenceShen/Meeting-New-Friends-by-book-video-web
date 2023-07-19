@@ -18,14 +18,13 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
 // options.addArguments('disable-gpu')
 options.windowSize({width:1200,height:1080})
 
-
-
 async function openCrawlerWeb() {
 
         // 建立這個browser的類型
         // let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().addArguments('--headless')).build();
         let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//
         const web = 'https://www.eslite.com/best-sellers/bookstore';//填寫你想要前往的網站
+        console.log("start!")
         await driver.get(web)//透國這個driver打開網頁
         // const yo=await driver.wait(until.elementsLocated(By.css(".close-btn"))) 
         // console.log(await yo[0].findElement(By.css('button')))
@@ -98,7 +97,7 @@ async function openCrawlerWeb() {
 
          
         console.log("hohoho")
-        driver.quit();
+        await driver.quit();
 	//await search('python');
         // console.log(await yo[0].getAttribute('innerHTML'))
         return cat_son;
@@ -145,7 +144,6 @@ export default{
             switch(task){
                 case 'init':
                     {
-                       
                         const res=await openCrawlerWeb();
                         console.log(res)
                         broadcastMessage(
@@ -156,6 +154,16 @@ export default{
                         );
                         break; 
                     }
+                case 'post':
+                {
+                        broadcastMessage(
+                            wss.clients, ['post', payload],{
+                            }
+                        );
+                    console.log('post');
+                    break;
+                }
+
 		case 'search':{
 			
 		}
