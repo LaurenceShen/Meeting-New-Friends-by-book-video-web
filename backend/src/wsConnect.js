@@ -1,5 +1,6 @@
 import {json} from 'express'
 import {UserModel} from './model/User.js'
+import Post from './model/Post.js'
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
@@ -133,6 +134,15 @@ const broadcastMessage=(clients,data,status)=>{
         sendStatus(status,client);
     });
 }
+
+const savePost = async (id, title, content) => {
+    try {
+    const newPost = new Post({ id, title, content });
+    console.log("Created post", newPost);
+    return newPost.save();
+    } catch (e) { throw new Error("Post creation error: " + e); }
+   };
+
 export default{
     onMessage:(wss,ws)=>(
         
@@ -160,6 +170,7 @@ export default{
                             wss.clients, ['post', payload],{
                             }
                         );
+                    savePost("1", "test", payload);
                     console.log('post');
                     break;
                 }
