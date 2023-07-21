@@ -5,7 +5,7 @@ const ChatContext=createContext({
     status:{},
     post:'',
     sendMessage:()=>{},           
-    sendPost:()=>{},           
+    sendPost:()=>{},
     clearMessages:()=>{},  
 });            
 //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行  
