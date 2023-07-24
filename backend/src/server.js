@@ -56,7 +56,7 @@ import mongoose from 'mongoose'
 import http from 'http' 
 import WebSocket from 'ws'
 import dotenv from 'dotenv-defaults'
-import egg from './model/User.js'
+import User from './model/User.js'
 import wsConnect from './wsConnect';
 mongo.connect(); 
 const app = express()
@@ -64,15 +64,9 @@ const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 const db = mongoose.connection  
 dotenv.config();
-const saveUser = async (id, name) => {
-    const existing = await egg.findOne({ name });
-    if (existing) throw new Error(`data ${name} exists!!`);
-    try {
-    const newUser = new egg({ id, name });
-    console.log("Created user", newUser);
-    return newUser.save();
-    } catch (e) { throw new Error("User creation error: " + e); }
-   };
+
+
+
 db.once('open', () => {
     console.log("MongoDB connected!");
     // saveUser(8,'mongo')
@@ -91,7 +85,7 @@ db.once('open', () => {
         // ws.on('message', data => { 
         //     ws.send(data)
         // })
-    
+
         ws.on('close', () => {
             console.log('Close connected')
         })

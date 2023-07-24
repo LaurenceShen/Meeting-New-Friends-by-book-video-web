@@ -4,6 +4,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import './login.css';
 import './index.css';
 import SideBar from './sidebar.js';
+import {handlelogin} from './auth.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -29,8 +30,10 @@ import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import {ChatProvider,useChat} from './useChat.js'
 
 function Login(){
+    const { books, status, post, createUser }=useChat();
     const [ user, setUser ] = useState([]);
     const [ profile, setProfile ] = useState([]);
 
@@ -57,11 +60,24 @@ function Login(){
         [ user ]
     );
 
+    useEffect(
+        () =>{
+            if (profile && !localStorage.getItem("useremail")){
+                localStorage.setItem("useremail", profile.email);
+                createUser([profile.name, profile.email])
+            }
+        },
+        [profile]
+    )
+    
     // log out function to log the user out of google and set the profile array to null
-const logOut = () => {
+    const logOut = () => {
         googleLogout();
         setProfile(null);
+        setUser(null);
+        localStorage.clear();
     };
+
     return (
         <div className="Login">
             <div className = "User-block">
@@ -74,11 +90,12 @@ const logOut = () => {
                     <br />
                     <div className = "Google-Login">
                         <p>Welcome,  {profile.name}!<br /></p>
+                        <p>Welcome,  {profile.email}!<br /></p>
                         <a> Go to write your first post! &nbsp;</a>
                         <a href = '/'><MDBIcon fas icon="pen-alt" /></a>
                     <br />
                     <br />
-                        <button onClick={logOut}>Log out</button>
+                        <button onClick={()=>logOut()}>Log out</button>
                     </div>
                 </div>
                     ) : (
