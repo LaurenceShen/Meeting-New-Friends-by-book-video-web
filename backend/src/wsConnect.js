@@ -76,9 +76,6 @@ async function openCrawlerWeb() {
                 }
                  
             }
-		console.log("search...")
-		const inputbox = await driver.wait(until.elementLocated(By.css('.header-search-bar input')),3000);
-		console.log(inputbox)
 
         }catch(e){
             console.error(e);
@@ -106,21 +103,61 @@ async function openCrawlerWeb() {
 async function search(inputString){
 	
 	//let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//
-	let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().windowSize({width:1200,height:1080})) .build();
+	let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().windowSize({width:1800,height:1080}).addArguments('--headless=new')) .build();
 	
-	//
-	const web = 'https://www.eslite.com/best-sellers/bookstore';//填寫你想要前往的網站
+	const web=`https://www.eslite.com/Search?keyword=${inputString}&final_price=0,&publishDate=0&sort=_weight_+desc&display=list&start=0&categories=[3]` //categories=3 中文出版
+	//const web = 'https://www.eslite.com/best-sellers/bookstore';//填寫你想要前往的網站
 	await driver.get(web)
 	console.log("search...")
-	const inputbox = await driver.wait(until.elementLocated(By.css('.header-search-bar input')));
+	await driver.sleep(2000);
+/*	const inputbox = await driver.wait(until.elementLocated(By.css('.header-search-bar input')));
 	const inputboxv=await driver.wait(until.elementIsVisible(inputbox));
 	console.log(inputboxv)
+	console.log(`a:${inputString}`)
 	await inputboxv.sendKeys(inputString);
 	const searchbutton = await driver.wait(until.elementLocated(By.css('.header-search-bar button')));
 	//const searchbuttonv=await driver.wait(until.elementIsVisible(searchbutton));
 	await driver.executeScript("arguments[0].click();", searchbutton)
 	console.log(await driver.getCurrentUrl());
+	const listbox=await driver.wait(until.elementsLocated(By.css('.col-lg-2')));
+	console.log(listbox);
+	const listbox1=await listbox[1].findElements(By.css('.listbox'));
+	console.log('jj',listbox1);
+	const listtitle=await listbox1[0].findElements(By.css('.title'));
+	console.log('jjjj',await listtitle[0].getAttribute('title'));*/
+	const word=await driver.wait(until.elementsLocated(By.css('.search-match-nums span')));
+	const num=Number(await word[2].getText())
+	const itemslist=await driver.wait(until.elementLocated(By.css('.search-product-block')));
+	const oitems=await itemslist.findElements(By.css('.product-item img'));
+	for (let i=0;i<oitems.length;i+=2){
+		await driver.executeScript("arguments[0].scrollIntoView()",oitems[i]);
+		await driver.sleep(100);
+	}
+	const nitems=await itemslist.findElements(By.css('.product-item'));
+	let result=[];
+	for (const item of nitems){
+		let book={name:"",author:"",img:"",description:"",src:""};
+		let img=await item.findElement(By.css('img'))
+		const imgsrc=await img.getAttribute('src');
+		if(imgsrc.includes('jpg')||imgsrc.includes('JPG')){
+			book.img=imgsrc;
+		}else{
+			console.log(imgsrc);
+			continue;
+		}
+	 	let a=await item.findElement(By.css('a'));
+		book.src=await a.getAttribute('href');
+		book.name=await a.getAttribute('title');
+		let authordiv=await item.findElement(By.css('.product-author'));
+		book.author=await authordiv.getText();
+		let descriptiondiv=await item.findElement(By.css('.product-description'));
+		book.description=await descriptiondiv.getText();
+		result.push(book);
+	}
+	return {num:num,data:result}
 }
+
+
 const sendData=(data,ws)=>{
     ws.send(JSON.stringify(data));
 }
@@ -146,8 +183,9 @@ export default{
                 case 'init':
                     {
                        
-                        const res=await openCrawlerWeb();
-                        console.log(res)
+                       // const res=await openCrawlerWeb();
+                        const res=[];
+						console.log(res)
                         broadcastMessage(
                             wss.clients,['output',res],{
                                 type:'success',
@@ -156,9 +194,17 @@ export default{
                         );
                         break; 
                     }
-		case 'search':{
-			
-		}
+				case 'search':{
+					const res =await search(payload);
+					console.log(res);
+					broadcastMessage(
+                            wss.clients,['search',res],{
+                                type:'success',
+                                msg: 'Message sent.',
+                            }
+                        );
+					break;	
+				}
 		default:
                     console.log('fault');
                     break;
