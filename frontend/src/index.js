@@ -219,8 +219,11 @@ function SearchBar(){
   const [newpost, setnewPost] = useState('');
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
-<<<<<<< HEAD
   const [email, setEmail] = useState('');
+
+  const [keyin,setKeyin]=useState("")
+  const {Search}=useChat(); 
+  const navigate=useNavigate();
 
   useEffect(
   () =>{
@@ -234,11 +237,6 @@ function SearchBar(){
     setBasicModal(!basicModal);
     setnewPost('');
   }
-=======
-  const [keyin,setKeyin]=useState("")
-  const {Search}=useChat(); 
-  const navigate=useNavigate();
->>>>>>> Jeff
   return (
     <div className = "Search-Block">
     <div className = "Search-Column">
@@ -248,17 +246,11 @@ function SearchBar(){
       </div>  
       <div className = "Search-and-Post"> 
       <div className = "Search-Button">
-<<<<<<< HEAD
-        <MDBBtn size='lg'  floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
-            <MDBIcon  icon='search' />
-        </MDBBtn>  
-=======
-	   <Link to={`/search/${keyin}`}> 
+	  <Link to={`/search/${keyin}`}> 
         <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
             <MDBIcon  icon='search' />
         </MDBBtn> 
 	  </Link> 
->>>>>>> Jeff
         &nbsp;
         &nbsp;
         <MDBBtn size='lg' onClick={toggleShow} floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
@@ -705,14 +697,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Login />
         </React.StrictMode>
     </GoogleOAuthProvider> } />
-<<<<<<< HEAD
         <Route path="/user" element={ <User /> } />
         <Route path="/matching" element={ <Dating /> } />
-=======
-        <Route path="user" element={ <User /> } />
         <Route path="/dating" element={ <Dating /> } />
 		<Route path='/search/:keyword' element={<Search/>}/>
->>>>>>> Jeff
       </Routes>
     </BrowserRouter>
     </ChatProvider>

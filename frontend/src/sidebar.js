@@ -44,17 +44,10 @@ function SideBar(){
 				<i class='fa-solid fa-circle-user fa-bounce fa-2xl' />
             </div>
             <ul>
-<<<<<<< HEAD
-                <li><a href="/#">Home</a></li>
-                <li><a href="/#/user">User</a></li>
-                <li><a href="/#/matching">Matching</a></li>
-                <li><a href="/#/login">Login</a></li>
-=======
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/user">User</Link></li>
-                <li><Link to="/dating">Dating</Link></li>
+                <li><Link to="/matching">Matching</Link></li>
                 <li><Link to="/login">Login</Link></li>
->>>>>>> Jeff
             </ul>
         </nav>
     </Bigdiv>

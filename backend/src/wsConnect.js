@@ -55,7 +55,6 @@ async function openCrawlerWeb() {
         // } 
         let cat_son=[];
         try{
-            
             const allimg =await driver.wait(until.elementsLocated(By.css(".item-image-wrap img")),5000)
             console.log(allimg.length)
             for(const img of allimg){
@@ -208,9 +207,8 @@ export default{
             switch(task){
                 case 'init':
                     {
-                        const res=await openCrawlerWeb();
-                        console.log(res)
-                       
+                        //const res=await openCrawlerWeb();
+                        //console.log(res)
                        // const res=await openCrawlerWeb();
                         const res=[];
 						console.log(res)
@@ -252,8 +250,6 @@ export default{
                         break;
                    }
 
-		case 'search':{
-		}
 				case 'search':{
 					const res =await search(payload);
 					console.log(res);
@@ -262,8 +258,8 @@ export default{
                                 type:'success',
                                 msg: 'Message sent.',
                             }
-                        );
-					break;	
+                    );
+					break;
 				}
 		default:
                     console.log('fault');
