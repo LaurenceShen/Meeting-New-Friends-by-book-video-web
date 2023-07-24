@@ -29,23 +29,35 @@ import SidebarMenu from 'react-bootstrap-sidebar-menu';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-
+import styled from "styled-components";
+import {Link} from 'react-router-dom';
+const Bigdiv=styled.div`
+	background-color:#000000;
+	z-index:100;
+`
 function SideBar(){
   const device = useRWD();
   return (
-    <div className='User-icon'>
+    <Bigdiv className='User-icon'>
         <nav className = {device==="mobile" ? ("menu_mobile") : ("menu")}>
             <div className='icon-img'>
-                <MDBIcon fas icon="user-circle" size = '2x'/>
+				<i class='fa-solid fa-circle-user fa-bounce fa-2xl' />
             </div>
             <ul>
+<<<<<<< HEAD
                 <li><a href="/#">Home</a></li>
                 <li><a href="/#/user">User</a></li>
                 <li><a href="/#/matching">Matching</a></li>
                 <li><a href="/#/login">Login</a></li>
+=======
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/user">User</Link></li>
+                <li><Link to="/dating">Dating</Link></li>
+                <li><Link to="/login">Login</Link></li>
+>>>>>>> Jeff
             </ul>
         </nav>
-    </div>
+    </Bigdiv>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter,HashRouter, Route, Routes,useNavigate,Link } from "react-router-dom";
 import './index.css';
 import './login.js';
 import SideBar from './sidebar.js';
@@ -8,6 +8,7 @@ import Login from './login.js';
 import User from './user.js';
 import Dating from './dating.js';
 import useRWD from './useRWD.js';
+import Search from './Search.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -69,7 +70,6 @@ import {TransitionGroup} from 'react-transition-group';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 
 var items = ['1.jpeg','2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg', '6.jpeg', '7.jpeg', '8.jpeg', '9.jpeg', '10.jpeg']
-//var items = ['1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 /*
 var items = [
             'https://mdbootstrap.com/img/new/standard/city/042.jpg',
@@ -219,6 +219,7 @@ function SearchBar(){
   const [newpost, setnewPost] = useState('');
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
+<<<<<<< HEAD
   const [email, setEmail] = useState('');
 
   useEffect(
@@ -233,18 +234,31 @@ function SearchBar(){
     setBasicModal(!basicModal);
     setnewPost('');
   }
+=======
+  const [keyin,setKeyin]=useState("")
+  const {Search}=useChat(); 
+  const navigate=useNavigate();
+>>>>>>> Jeff
   return (
     <div className = "Search-Block">
     <div className = "Search-Column">
       <MDBInputGroup> 
-        <MDBInput label='Search' />
+        <MDBInput label='Search' onChange={e=>setKeyin(e.target.value)}/>
       </MDBInputGroup>
       </div>  
       <div className = "Search-and-Post"> 
       <div className = "Search-Button">
+<<<<<<< HEAD
         <MDBBtn size='lg'  floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
             <MDBIcon  icon='search' />
         </MDBBtn>  
+=======
+	   <Link to={`/search/${keyin}`}> 
+        <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
+            <MDBIcon  icon='search' />
+        </MDBBtn> 
+	  </Link> 
+>>>>>>> Jeff
         &nbsp;
         &nbsp;
         <MDBBtn size='lg' onClick={toggleShow} floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
@@ -260,7 +274,7 @@ function SearchBar(){
                 <MDBTextArea label='Post' id='textAreaExample' value ={newpost} rows={4} onChange = {(e) => setnewPost(e.target.value)} />
             </MDBModalBody>
             <MDBModalFooter>
-              <MDBBtn color='secondary' onClick={toggleShow}>
+            <MDBBtn color='secondary' onClick={toggleShow}>
                 Close
               </MDBBtn>
               <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost([newpost, email])}>
@@ -636,7 +650,7 @@ class Item extends React.Component {
         return(
             <div className={className}>
                 <img src = {this.props.id} style = {{width : "100%", height:"100%"}} />
-            </div>
+				</div>
         )
     }
 }
@@ -683,18 +697,24 @@ function FrontPage () {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ChatProvider>
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={ <FrontPage /> } />
+        <Route path="/" element={ <FrontPage /> }/>
         <Route path="/login" element={ <GoogleOAuthProvider clientId="325684444932-r6ba80mc6eong2p7dnn62flrqd3266c6.apps.googleusercontent.com">
         <React.StrictMode>
             <Login />
         </React.StrictMode>
     </GoogleOAuthProvider> } />
+<<<<<<< HEAD
         <Route path="/user" element={ <User /> } />
         <Route path="/matching" element={ <Dating /> } />
+=======
+        <Route path="user" element={ <User /> } />
+        <Route path="/dating" element={ <Dating /> } />
+		<Route path='/search/:keyword' element={<Search/>}/>
+>>>>>>> Jeff
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
     </ChatProvider>
   </React.StrictMode>
 )
