@@ -3,16 +3,20 @@ let client = new WebSocket('ws://localhost:4000')
 const ChatContext=createContext({ 
     books:[],
     status:{},
-    post:'',
+    post:[],
     sendMessage:()=>{},           
     sendPost:()=>{},
-    clearMessages:()=>{},  
+    setPost:()=>{},
+    getMyPost:()=>{},
+    clearMessages:()=>{}, 
+    createUser:()=>{},
 });            
 //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行  
 const ChatProvider=(props)=>{    
     const [books,setBooks]=useState([]);  
     const [post,setPost]=useState([]);  
-    const [status,setStatus]=useState({});   
+    const [status,setStatus]=useState({}); 
+
     client.onmessage=(byteString)=>{  
         const {data}=byteString; 
         const [task,payload]=JSON.parse(data);
@@ -27,7 +31,12 @@ const ChatProvider=(props)=>{
                 setPost([...post,payload]);
                 console.log("yayaya"+payload);
                 break;
-            } 
+            }
+            case 'mypost':{  
+                setPost(payload);
+                console.log("yayaya"+payload);
+                break;
+            }
                  
         }  
     }
@@ -44,7 +53,21 @@ const ChatProvider=(props)=>{
 
     const sendPost=(payload)=>{ 
         console.log("ok");
+        payload = JSON.stringify(payload);
+        console.log(payload);
         Newsend(["post",payload]); 
+    }
+
+    const getMyPost=(payload)=>{ 
+        console.log("okok");
+        Newsend(["mypost",payload]); 
+    }
+    
+    const createUser=(payload)=>{ 
+        console.log("go create!", payload);
+        payload = JSON.stringify(payload);
+        console.log(payload);
+        Newsend(["createUser",payload]); 
     }
 
     const clearMessages=()=>{
@@ -71,8 +94,8 @@ const ChatProvider=(props)=>{
     return ( 
         <ChatContext.Provider
             value={{
-                status,books,post,
-                sendMessage,clearMessages,sendPost
+                status, books, post,
+                sendMessage, clearMessages, sendPost, getMyPost, createUser
             }}
             {...props}   
         />

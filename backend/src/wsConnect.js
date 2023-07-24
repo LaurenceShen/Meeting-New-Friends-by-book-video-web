@@ -1,5 +1,5 @@
 import {json} from 'express'
-import {UserModel} from './model/User.js'
+import User from './model/User.js'
 import Post from './model/Post.js'
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
@@ -135,22 +135,39 @@ const broadcastMessage=(clients,data,status)=>{
     });
 }
 
-const savePost = async (id, title, content) => {
+const savePost = async (id, email, title, content) => {
     try {
-    const newPost = new Post({ id, title, content });
+    const newPost = new Post({ id, email, title, content });
     console.log("Created post", newPost);
     return newPost.save();
     } catch (e) { throw new Error("Post creation error: " + e); }
    };
 
+const getPost = async(email) => {
+    try{
+    const userpost = await Post.find({"email": email});
+    let postcontent = userpost.map((i) => i.content)
+    return postcontent;
+    } catch (e) { throw new Error("Post search error: " + e); }
+   };
+
+const saveUser = async (name, email) => {
+    const existing = await User.findOne({ name });
+    if (existing) throw new Error(`data ${name} exists!!`);
+    try {
+    const newUser = new User({ name, email });
+    console.log("Created user", newUser);
+    return newUser.save();
+    } catch (e) { throw new Error("User creation error: " + e); }
+   };
+
 export default{
     onMessage:(wss,ws)=>(
-        
         async(byteString)=>{
             console.log("hhhh")
             const {data}=byteString ;
             const [task,payload]=JSON.parse(data);
-         
+            console.log("hhh", payload);
             switch(task){
                 case 'init':
                     {
@@ -165,18 +182,36 @@ export default{
                         break; 
                     }
                 case 'post':
-                {
+                   {
+                        console.log("dsfgf:", payload);
+                        const [payloads, email] = JSON.parse(payload);
+                        console.log("email:", email);
+                        savePost("1", email ,"test", payloads);
+                        console.log('post');
+                        break;
+                    }
+
+                case 'mypost':
+                   {
+                        const mypost = await getPost(payload);
+                        console.log('getpost', mypost);
                         broadcastMessage(
-                            wss.clients, ['post', payload],{
+                            wss.clients, ['mypost', mypost],{
                             }
                         );
-                    savePost("1", "test", payload);
-                    console.log('post');
-                    break;
-                }
+                        break;
+                    }
+
+                case 'createUser':
+                   {
+                        console.log("createUser:", payload);
+                        const [name, email] = JSON.parse(payload);
+                        console.log("createUser:", name);
+                        saveUser(name, email);
+                        break;
+                   }
 
 		case 'search':{
-			
 		}
 		default:
                     console.log('fault');
