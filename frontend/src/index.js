@@ -219,8 +219,17 @@ function SearchBar(){
   const [newpost, setnewPost] = useState('');
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
+  const [email, setEmail] = useState('');
+
+  useEffect(
+  () =>{
+    setEmail(localStorage.getItem('useremail'))
+  },
+  [localStorage.getItem('useremail')]
+  )
+
   let handlePost = () => {
-    sendPost(newpost);
+    sendPost([newpost, email]);
     setBasicModal(!basicModal);
     setnewPost('');
   }
@@ -254,7 +263,7 @@ function SearchBar(){
               <MDBBtn color='secondary' onClick={toggleShow}>
                 Close
               </MDBBtn>
-              <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost(newpost)}>
+              <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost([newpost, email])}>
                 <MDBIcon far icon="paper-plane" />
               </MDBBtn>
             </MDBModalFooter> 
@@ -400,18 +409,12 @@ function Tab() {
             Following
           </MDBTabsLink>
         </MDBTabsItem>
-        <MDBTabsItem>
-          <MDBTabsLink onClick={() => handleBasicClick('tab4')} active={basicActive === 'tab4'}>
-            Your Post
-          </MDBTabsLink>
-        </MDBTabsItem>
       </MDBTabs>
 
       <MDBTabsContent>
         <MDBTabsPane show={basicActive === 'tab1'}><Recommendation/></MDBTabsPane>
         <MDBTabsPane show={basicActive === 'tab2'}><Carousel items = {items} active={0} /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><Table /><Recommendation /></MDBTabsPane>
         <MDBTabsPane show={basicActive === 'tab3'}><Table /></MDBTabsPane>
-        <MDBTabsPane show={basicActive === 'tab4'}>{mypost.map((i)=><li>{i}</li>)}</MDBTabsPane>
       </MDBTabsContent>
     </div>
   );

@@ -31,8 +31,20 @@ import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
 
 function User(){
-  const {books, status, post, sendPost}=useChat()
+  const {books, status, post, sendPost, getMyPost}=useChat();
+  const [mypost, setMyPost] = useState([]);
+  const [change, setChange] = useState([false]);
   const device = useRWD();
+  
+  useEffect(
+    () => {
+            getMyPost(localStorage.getItem("useremail"));
+            setMyPost(post);
+            console.log("cvool:", mypost);
+    },
+    []
+  )
+
   return (
     <div className="User">
             <div className = "User-block">
