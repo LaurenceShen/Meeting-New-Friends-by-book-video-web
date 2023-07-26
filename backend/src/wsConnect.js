@@ -189,7 +189,7 @@ const getPost = async(email) => {
 
 const saveUser = async (name, email) => {
     const existing = await User.findOne({ name });
-    if (existing) throw new Error(`data ${name} exists!!`);
+    if (existing) return;
     try {
     const newUser = new User({ name, email });
     console.log("Created user", newUser);
