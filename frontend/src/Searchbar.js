@@ -101,9 +101,12 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
   <div> 
   	<Box sx={{height:30,}}/>
   	<Rowdiv>
+      &nbsp;&nbsp;
     <NewUserblock>
       <SideBar />
     </NewUserblock> 
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
     <div className = "Search-Column-bar" style={{width:'70%'}}>
       <MDBInputGroup> 
         <MDBInput label='Search' value={keyin} style = {{height:"90%"}} onChange={e=>setKeyin(e.target.value)}/>
@@ -120,8 +123,11 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
 		md:2,
 		height:30,
 	}}/>
+   {rcount >= 0 ?
    <Divider variant="middle" spacing={5}  component="div" >
-   {`About ${rcount} results`}</Divider>
+    {`About ${rcount} results`}
+   </Divider>
+   :(<></>)}
   </div>
 
       );

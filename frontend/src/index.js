@@ -9,6 +9,7 @@ import User from './user.js';
 import Dating from './dating.js';
 import useRWD from './useRWD.js';
 import Search from './Search.js';
+import BookProfile from './BookProfile.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -700,6 +701,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/user" element={ <User /> } />
         <Route path="/matching" element={ <Dating /> } />
 		<Route path='/search/:keyword' element={ <Search/> }/>
+		<Route path='/book/:keyword' element={ <BookProfile/> }/>
       </Routes>
     </BrowserRouter>
     </ChatProvider>

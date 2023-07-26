@@ -5,7 +5,8 @@ import Searchlist from './Searchlist.js';
 import Typography from '@mui/material/Typography';
 import Searchselector from './Searchselector.js';
 import styled from 'styled-components';
-import {useChat} from './useChat.js'
+import {useChat} from './useChat.js';
+import './index.css';
 import {useParams, useLocation} from 'react-router-dom';
 
 const Rowdiv=styled.div`
@@ -80,7 +81,7 @@ const tmp_result=[
 	},[keyword])
 	
     return (
-	<div>
+	<div className = "FrontPage">
 		<Searchbar rcount={rcount} keyword={keyword}/>
 		 <Box
     		 sx={{
@@ -96,7 +97,7 @@ const tmp_result=[
         <Rowdiv>
 			<Searchlist result={tmp_result} keyword={key}/>
 			<Searchselector/>
-		</Rowdiv>) 
+		</Rowdiv>
 		</Box>
 	</div>
 	);

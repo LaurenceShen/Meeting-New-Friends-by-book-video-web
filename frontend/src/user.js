@@ -24,6 +24,12 @@ import {
   MDBDropdownItem,
 } from 'mdb-react-ui-kit';
 
+import {
+  MDBCardTitle,
+  MDBCardHeader,
+  MDBCardFooter,
+} from 'mdb-react-ui-kit';
+
 import { MDBBadge } from 'mdb-react-ui-kit';
 
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
@@ -33,14 +39,14 @@ import { MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from '
 function User(){
   const {books, status, post, sendPost, getMyPost}=useChat();
   const [mypost, setMyPost] = useState([]);
-  const [change, setChange] = useState([false]);
+  const [change, setChange] = useState([true]);
   const device = useRWD();
   
   useEffect(
     () => {
             getMyPost(localStorage.getItem("useremail"));
             setMyPost(post);
-            console.log("cvool:", mypost);
+            console.log("post!:", post);
     },
     []
   )
@@ -95,7 +101,10 @@ function User(){
                   <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
                 </div>
                 <MDBRow>
-                    {post.map((i)=><li>{i}</li>)}
+                    {post
+                    .slice(0)
+                    .reverse()
+                    .map((i) => (<><Postcard content = {i}/><br /></>))}
                 </MDBRow>
               </MDBCardBody>
             </MDBCard>
@@ -104,6 +113,18 @@ function User(){
       </MDBContainer>
     </div>
     </div>
+  );
+}
+
+function Postcard(content) {
+    console.log("postcards:", content);
+  return (
+    <MDBCard alignment='center'>
+      <MDBCardBody>
+        <MDBCardText>{content.content}</MDBCardText>
+      </MDBCardBody>
+      <MDBCardFooter className='text-muted' style = {{"font-size" : '1px'}} >2 days ago</MDBCardFooter>
+    </MDBCard>
   );
 }
 export default User;
