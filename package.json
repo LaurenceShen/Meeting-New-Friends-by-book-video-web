@@ -19,9 +19,5 @@
     "react-transition-group": "^4.4.5",
     "ws": "^8.13.0",
     "yarn": "^1.22.19"
-  },
-  "devDependencies": {
-    "eslint": "^8.45.0",
-    "eslint-plugin-react": "^7.33.0"
   }
 }

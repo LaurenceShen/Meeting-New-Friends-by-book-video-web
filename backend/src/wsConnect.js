@@ -207,11 +207,10 @@ export default{
             switch(task){
                 case 'init':
                     {
-                        //const res=await openCrawlerWeb();
-                        //console.log(res)
-                       // const res=await openCrawlerWeb();
-                        const res=[];
-						console.log(res)
+                        const res=await openCrawlerWeb();
+                        console.log(res)
+                        //const res=[];
+						//console.log(res)
                         broadcastMessage(
                             wss.clients,['output',res],{
                                 type:'success',
