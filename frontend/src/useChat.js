@@ -19,6 +19,7 @@ const ChatProvider=(props)=>{
     const [post,setPost]=useState([]);  
     const [status,setStatus]=useState({}); 
 	const [result,setResult]=useState({num:0,data:[]});
+    
     client.onmessage=(byteString)=>{  
         const {data}=byteString; 
         const [task,payload]=JSON.parse(data);
@@ -41,7 +42,7 @@ const ChatProvider=(props)=>{
             }
 			case 'search':{
 				setResult(payload);
-				console.log('yayaya'+payload)
+				console.log('search:'+payload)
 				break;
 			}
                  
@@ -80,10 +81,12 @@ const ChatProvider=(props)=>{
     const clearMessages=()=>{
         sendData(['clear']);
     };
-    const Search=(payload)=>{
+
+    const Search= (payload)=>{
 		console.log('s');
 		Newsend(['search',payload]);							
     };   
+
     const waitForConnection = function (callback, interval) {
         if (client.readyState === 1) {
             callback();

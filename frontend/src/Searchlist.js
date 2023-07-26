@@ -11,8 +11,9 @@ import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import {useState,useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
+
 export default function Searchlist({result}) {
-	console.log(result); 
+	console.log("slist:", result); 
 	const [showresult,setShowresult]=useState([]);
 	let location=useLocation();
 	useEffect(()=>{

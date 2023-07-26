@@ -108,7 +108,7 @@ async function search(inputString){
 	//const web = 'https://www.eslite.com/best-sellers/bookstore';//填寫你想要前往的網站
 	await driver.get(web)
 	console.log("search...")
-	await driver.sleep(2000);
+	await driver.sleep(5000);
 /*	const inputbox = await driver.wait(until.elementLocated(By.css('.header-search-bar input')));
 	const inputboxv=await driver.wait(until.elementIsVisible(inputbox));
 	console.log(inputboxv)
@@ -251,8 +251,8 @@ export default{
                    }
 
 				case 'search':{
-					const res =await search(payload);
-					console.log(res);
+					const res = await search(payload);
+                    console.log(res);
 					broadcastMessage(
                             wss.clients,['search',res],{
                                 type:'success',

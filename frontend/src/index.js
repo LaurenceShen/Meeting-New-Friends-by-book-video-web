@@ -237,47 +237,48 @@ function SearchBar(){
     setBasicModal(!basicModal);
     setnewPost('');
   }
+
   return (
     <div className = "Search-Block">
-    <div className = "Search-Column">
-      <MDBInputGroup> 
-        <MDBInput label='Search' onChange={e=>setKeyin(e.target.value)}/>
-      </MDBInputGroup>
+      <div className = "Search-Column">
+        <MDBInputGroup> 
+            <MDBInput label='Search' onChange={e=>setKeyin(e.target.value)}/>
+        </MDBInputGroup>
       </div>  
       <div className = "Search-and-Post"> 
-      <div className = "Search-Button">
-	  <Link to={`/search/${keyin}`}> 
-        <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
-            <MDBIcon  icon='search' />
-        </MDBBtn> 
-	  </Link> 
-        &nbsp;
-        &nbsp;
-        <MDBBtn size='lg' onClick={toggleShow} floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
-            <MDBIcon fas icon="edit" />
-        </MDBBtn>
-        <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
-        <MDBModalDialog>
-          <MDBModalContent>
-            <MDBModalHeader>
-              <MDBModalTitle>Post!</MDBModalTitle>
-            </MDBModalHeader>
-            <MDBModalBody>
-                <MDBTextArea label='Post' id='textAreaExample' value ={newpost} rows={4} onChange = {(e) => setnewPost(e.target.value)} />
-            </MDBModalBody>
-            <MDBModalFooter>
-            <MDBBtn color='secondary' onClick={toggleShow}>
-                Close
-              </MDBBtn>
-              <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost([newpost, email])}>
-                <MDBIcon far icon="paper-plane" />
-              </MDBBtn>
-            </MDBModalFooter> 
-          </MDBModalContent>
-        </MDBModalDialog>
-      </MDBModal>
+        <div className = "Search-Button">
+	        <Link to={`/search/${keyin}`}> 
+                <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
+                    <MDBIcon  icon='search' />
+                </MDBBtn> 
+	        </Link> 
+            &nbsp;
+            &nbsp;
+            <MDBBtn size='lg' onClick={toggleShow} floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
+                <MDBIcon fas icon="edit" />
+            </MDBBtn>
+            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+                <MDBModalDialog>
+                <MDBModalContent>
+                    <MDBModalHeader>
+                        <MDBModalTitle>Post!</MDBModalTitle>
+                    </MDBModalHeader>
+                    <MDBModalBody>
+                        <MDBTextArea label='Post' id='textAreaExample' value ={newpost} rows={4} onChange = {(e) => setnewPost(e.target.value)} />
+                    </MDBModalBody>
+                    <MDBModalFooter>
+                        <MDBBtn color='secondary' onClick={toggleShow}>
+                            Close
+                        </MDBBtn>
+                        <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost([newpost, email])}>
+                            <MDBIcon far icon="paper-plane" />
+                        </MDBBtn>
+                    </MDBModalFooter> 
+                </MDBModalContent>
+            </MDBModalDialog>
+        </MDBModal>
       </div>
-      </div>
+    </div>
 
     </div>
   );
@@ -674,7 +675,6 @@ function FrontPage () {
                         <SideList />
                     </div>
                 </div>)
-                
                 }
             </div>
         );
@@ -699,8 +699,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </GoogleOAuthProvider> } />
         <Route path="/user" element={ <User /> } />
         <Route path="/matching" element={ <Dating /> } />
-        <Route path="/dating" element={ <Dating /> } />
-		<Route path='/search/:keyword' element={<Search/>}/>
+		<Route path='/search/:keyword' element={ <Search/> }/>
       </Routes>
     </BrowserRouter>
     </ChatProvider>
