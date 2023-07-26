@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Searchselector from './Searchselector.js';
 import styled from 'styled-components';
 import {useChat} from './useChat.js'
-import {useParams} from 'react-router-dom';
+import {useParams,useLocation} from 'react-router-dom';
 const tmp_result=[
         {
             name:"金庸作品集(新修版/36冊合售)",
@@ -54,6 +54,17 @@ export default function Search(){
 	const {result,Search}=useChat();
 	const {keyword}=useParams();
 	const [showresult,setShowresult]=useState([])
+	let location=useLocation();
+	useEffect(()=>{
+		let ignore=false;
+		if(!ignore){
+			Search(keyword)
+		}
+		return ()=>{
+			ignore=true;
+			console.log('i');
+		}
+	},[location]);
 	useEffect(()=>{
 		setShowresult(result.data);
 		setRcount(result.num);
@@ -61,7 +72,6 @@ export default function Search(){
 	useEffect(()=>{
 		console.log("key:",keyword)
 		setKey(keyword);
-		Search(keyword);
 	},[keyword])
 	return (
 	<div>

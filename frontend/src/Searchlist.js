@@ -11,8 +11,8 @@ import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import {useState,useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
+import Loading from './Loading.js'
 export default function Searchlist({result}) {
-	console.log(result); 
 	const [showresult,setShowresult]=useState([]);
 	let location=useLocation();
 	useEffect(()=>{
@@ -113,11 +113,11 @@ export default function Searchlist({result}) {
     </List> : <Box sx={{
 		width:"95%",
 		height:"400px",
-		backgroundColor:"#eeeeee",
+		backgroundColor:"#ffffff",
 		display:'flex',
 		justifyContent:'center',
 		alignItems:'center',
-	}}><CircularProgress/></Box>}
+	}}><Loading/></Box>}
 	</>
   );
 } 

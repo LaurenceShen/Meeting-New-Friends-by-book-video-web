@@ -93,7 +93,6 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
   const [keyin,setKeyin]=useState(keyword)
-  const {Search}=useChat(); 
   useEffect(()=>{
 	setKeyin(keyword);
 	},[keyword])

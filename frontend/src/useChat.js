@@ -56,6 +56,7 @@ const ChatProvider=(props)=>{
             // optional: implement backoff for interval here
             setTimeout(function () {
                 waitForConnection(callback, interval);
+				console.log('wait...');
             }, interval);
         }
     };
