@@ -95,7 +95,7 @@ const tmp_result=[
 			{`About ${rcount} results`}
 		</Typography>*/}
         <Rowdiv>
-			<Searchlist result={tmp_result} keyword={key}/>
+			<Searchlist result={result.data} keyword={key}/>
 			<Searchselector/>
 		</Rowdiv>
 		</Box>
