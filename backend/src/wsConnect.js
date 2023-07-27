@@ -103,27 +103,13 @@ async function search(inputString){
 	
 	//let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//
 	let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().windowSize({width:1800,height:1080}).addArguments('--headless=new')) .build();
-	
+	console.log(1)
 	const web=`https://www.eslite.com/Search?keyword=${inputString}&final_price=0,&publishDate=0&sort=_weight_+desc&display=list&start=0&categories=[3]` //categories=3 中文出版
 	//const web = 'https://www.eslite.com/best-sellers/bookstore';//填寫你想要前往的網站
+	console.log(2);
 	await driver.get(web)
 	console.log("search...")
-	await driver.sleep(5000);
-/*	const inputbox = await driver.wait(until.elementLocated(By.css('.header-search-bar input')));
-	const inputboxv=await driver.wait(until.elementIsVisible(inputbox));
-	console.log(inputboxv)
-	console.log(`a:${inputString}`)
-	await inputboxv.sendKeys(inputString);
-	const searchbutton = await driver.wait(until.elementLocated(By.css('.header-search-bar button')));
-	//const searchbuttonv=await driver.wait(until.elementIsVisible(searchbutton));
-	await driver.executeScript("arguments[0].click();", searchbutton)
-	console.log(await driver.getCurrentUrl());
-	const listbox=await driver.wait(until.elementsLocated(By.css('.col-lg-2')));
-	console.log(listbox);
-	const listbox1=await listbox[1].findElements(By.css('.listbox'));
-	console.log('jj',listbox1);
-	const listtitle=await listbox1[0].findElements(By.css('.title'));
-	console.log('jjjj',await listtitle[0].getAttribute('title'));*/
+	await driver.sleep(2000);
 	const word=await driver.wait(until.elementsLocated(By.css('.search-match-nums span')));
 	const num=Number(await word[2].getText())
 	const itemslist=await driver.wait(until.elementLocated(By.css('.search-product-block')));
@@ -153,6 +139,7 @@ async function search(inputString){
 		book.description=await descriptiondiv.getText();
 		result.push(book);
 	}
+	driver.quit();
 	return {num:num,data:result}
 }
 
@@ -203,16 +190,16 @@ export default{
             console.log("hhhh")
             const {data}=byteString ;
             const [task,payload]=JSON.parse(data);
-            console.log("hhh", payload);
+            console.log("hhh", data);
             switch(task){
                 case 'init':
                     {
-                        const res=await openCrawlerWeb();
-                        console.log(res)
-                        //const res=[];
+                       // const res=await openCrawlerWeb();
+                        //console.log(res)
+                        const res=[];
 						//console.log(res)
                         broadcastMessage(
-                            wss.clients,['output',res],{
+                            [ws],['output',res],{
                                 type:'success',
                                 msg: 'Message sent.',
                             }
@@ -253,7 +240,7 @@ export default{
 					const res = await search(payload);
                     console.log(res);
 					broadcastMessage(
-                            wss.clients,['search',res],{
+                            [ws],['search',res],{
                                 type:'success',
                                 msg: 'Message sent.',
                             }

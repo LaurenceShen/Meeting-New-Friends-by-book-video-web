@@ -8,16 +8,6 @@ import styled from 'styled-components';
 import {useChat} from './useChat.js';
 import './index.css';
 import {useParams, useLocation} from 'react-router-dom';
-
-const Rowdiv=styled.div`
-	display:flex;
-	flex-direction:row;
-	justify-content:space-between;
-	position:absolute;
-	padding-right:50px;
-	width:95%;
-`;
-export default function Search(){
 const tmp_result=[
         {
             name:"金庸作品集(新修版/36冊合售)",
@@ -49,35 +39,43 @@ const tmp_result=[
 			img:"https://s.eslite.dev/Upload/Product/201607/o/636051186427470000.jpg",
             description:"一本全面呈現金庸多種寫作題材的文集。本書收入了金庸的武俠小說（節選）、社評、影評、專欄文章、翻譯小說、政論文章及史學研究>論文。從數以千萬言的金庸的多種話語寫作中擷取代表性作品結為一集，並附有對其寫作的導讀、生平及寫作年表。"
         }
-    ]
+]
+
+const Rowdiv=styled.div`
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	position:absolute;
+	padding-right:50px;
+	width:95%;
+`;
+export default function Search(){
 	const [rcount,setRcount]=useState(5);
 	const [key,setKey]=useState("");
 	const {result,Search}=useChat();
 	const {keyword}=useParams();
 	const [showresult,setShowresult]=useState([])
 	let location = useLocation();
-	let flag = false;
-    
-    useEffect(()=>{
-        setShowresult(tmp_result);
-        Search(keyword);
-        flag = true;
-    },[location])
-
-    useEffect(()=>{
-		console.log("hihihi")
-		setShowresult(result.data);
-		setRcount(result.num);
-	    flag = true;
-    },[result])
 	
     useEffect(()=>{
+		let ignore=false;
+		if(!ignore){
+			Search(keyword)
+		}
+		return ()=>{
+			ignore=true;
+			console.log('i');
+		}
+	},[location]);
+
+	useEffect(()=>{
+		setShowresult(result.data);
+		setRcount(result.num);
+	},[result])	
+ 
+    useEffect(()=>{
 		console.log("key:",keyword)
-        if (flag){
 		setKey(keyword);
-        flag = false;
-        }
-        flag = true;
 	},[keyword])
 	
     return (
