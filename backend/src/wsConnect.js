@@ -100,7 +100,6 @@ async function openCrawlerWeb() {
         return cat_son;
     }
 async function search(inputString){
-	
 	//let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//
 	let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().windowSize({width:1800,height:1080}).addArguments('--headless=new')) .build();
 	console.log(1)
