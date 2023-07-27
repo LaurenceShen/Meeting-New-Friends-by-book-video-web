@@ -98,10 +98,11 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
 	setKeyin(keyword);
 	},[keyword])
   return(
-  <div> 
+  <div className="search-bar-small"> 
   	<Box sx={{height:30,}}/>
   	<Rowdiv>
-      &nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;
     <NewUserblock>
       <SideBar />
     </NewUserblock> 
@@ -118,6 +119,14 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
         </MDBBtn> 
 	  </Link> 
     </div>  
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
+    <MDBIcon fas icon="comment" size = "2x"/>
 	</Rowdiv>
 	<Box sx={{
 		md:2,

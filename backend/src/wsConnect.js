@@ -174,7 +174,7 @@ const getPost = async(email) => {
    };
 
 const saveUser = async (name, email) => {
-    const existing = await User.findOne({ name });
+    const existing = await User.findOne({ email });
     if (existing) return;
     try {
     const newUser = new User({ name, email });

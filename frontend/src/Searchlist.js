@@ -10,7 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import {useState,useEffect} from 'react'
-import {useLocation} from 'react-router-dom'
+import {useLocation, Link} from 'react-router-dom'
 import Loading from './Loading.js'
 
 export default function Searchlist({result}) {
@@ -38,7 +38,8 @@ export default function Searchlist({result}) {
 			display:"flex",
 			alignItems:"center",
 		}}>
-			<img style={{height:"100%",maxWidth:100}} alt="book1" src={r.img}/>
+			<Link to ={`../../book/${r.name}`} ><img style={{height:"100%",maxWidth:100}} alt="book1" src={r.img}/>
+        </Link>
         </ListItemAvatar>
 		<Box sx={{pt:1}}>
         <ListItemText
