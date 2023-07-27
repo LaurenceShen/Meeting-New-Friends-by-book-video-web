@@ -88,6 +88,12 @@ const Rowdiv=styled.div`
 const Bigdiv=styled.div`
 	height:50%;
 `;
+const Dividerdiv=styled.div`
+	width:100%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+`
 export default function PrimarySearchAppBar({rcount,keyword}) {
   const [basicModal, setBasicModal] = useState(false);
   const toggleShow = () => setBasicModal(!basicModal);
@@ -117,10 +123,12 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
 	</Rowdiv>
 	<Box sx={{
 		md:2,
-		height:30,
+		height:40,
 	}}/>
-   <Divider variant="middle" spacing={5}  component="div" >
+	<Dividerdiv>
+   <Divider variant="middle" spacing={5}  component="div" sx={{width:"80%",backgroundColor:"#ffffff"}} >
    {`About ${rcount} results`}</Divider>
+	</Dividerdiv>
   </div>
 
       );

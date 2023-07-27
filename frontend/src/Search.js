@@ -74,13 +74,13 @@ export default function Search(){
 		setKey(keyword);
 	},[keyword])
 	return (
-	<div>
+	<div className='FrontPage'>
 		<Searchbar rcount={rcount} keyword={keyword}/>
 		 <Box
     		 sx={{
        		 width:"70%",
 			padding:5,
-			pt:2,
+			pt:3,
 		/*	backgroundColor:"primary.dark",*/
 			}}
 		 >

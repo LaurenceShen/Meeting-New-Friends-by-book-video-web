@@ -123,6 +123,7 @@ async function search(inputString){
 	let result=[];
 	for (const item of nitems){
 		let book={name:"",author:"",img:"",description:"",src:""};
+	try{
 		let img=await item.findElement(By.css('img'))
 		const imgsrc=await img.getAttribute('src');
 		if(imgsrc.includes('jpg')||imgsrc.includes('JPG')){
@@ -138,6 +139,9 @@ async function search(inputString){
 		book.author=await authordiv.getText();
 		let descriptiondiv=await item.findElement(By.css('.product-description'));
 		book.description=await descriptiondiv.getText();
+		}catch(e){
+			console.log(e);
+		}
 		result.push(book);
 	}
 	driver.quit();
