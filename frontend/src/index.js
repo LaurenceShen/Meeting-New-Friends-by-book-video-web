@@ -9,6 +9,7 @@ import User from './user.js';
 import Dating from './dating.js';
 import useRWD from './useRWD.js';
 import Search from './Search.js';
+import BookProfile from './BookProfile.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -214,60 +215,76 @@ function NavBar(){
 }
 
 function SearchBar(){
+  const {books, status, post, sendPost}=useChat()
   const [basicModal, setBasicModal] = useState(false);
+  const [newpost, setnewPost] = useState('');
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
+  const [email, setEmail] = useState('');
+
   const [keyin,setKeyin]=useState("")
   const {Search}=useChat(); 
   const navigate=useNavigate();
+
+  useEffect(
+  () =>{
+    setEmail(localStorage.getItem('useremail'))
+  },
+  [localStorage.getItem('useremail')]
+  )
+
+  let handlePost = () => {
+    sendPost([newpost, email]);
+    setBasicModal(!basicModal);
+    setnewPost('');
+  }
+
   return (
-    <div className = "Search-Block">    
-    <div className = "Search-Column">
-      <MDBInputGroup> 
-        <MDBInput label='Search' onChange={e=>setKeyin(e.target.value)}/>
-      </MDBInputGroup>
+    <div className = "Search-Block">
+      <div className = "Search-Column">
+        <MDBInputGroup> 
+            <MDBInput label='Search' onChange={e=>setKeyin(e.target.value)}/>
+        </MDBInputGroup>
       </div>  
       <div className = "Search-and-Post"> 
-      <div className = "Search-Button">
-	   <Link to={`/search/${keyin}`}> 
-        <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
-            <MDBIcon  icon='search' />
-        </MDBBtn> 
-	  </Link> 
-        &nbsp;
-        &nbsp;
-        <MDBBtn size='lg' onClick={toggleShow} floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
-            <MDBIcon fas icon="edit" />
-        </MDBBtn>
-        <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
-        <MDBModalDialog>
-          <MDBModalContent>
-            <MDBModalHeader>
-              <MDBModalTitle>Post!</MDBModalTitle>
-            </MDBModalHeader>
-            <MDBModalBody>
-<MDBTextArea label='Post' id='textAreaExample' rows={4} />
-            </MDBModalBody>
-
-            <MDBModalFooter>
-            <MDBBtn color='secondary' onClick={toggleShow}>
-                Close
-              </MDBBtn>
-        <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }}>
-        <MDBIcon far icon="paper-plane" />
-        </MDBBtn>
-            </MDBModalFooter> 
-          </MDBModalContent>
-        </MDBModalDialog>
-      </MDBModal>
+        <div className = "Search-Button">
+	        <Link to={`/search/${keyin}`}> 
+                <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
+                    <MDBIcon  icon='search' />
+                </MDBBtn> 
+	        </Link> 
+            &nbsp;
+            &nbsp;
+            <MDBBtn size='lg' onClick={toggleShow} floating style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
+                <MDBIcon fas icon="edit" />
+            </MDBBtn>
+            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+                <MDBModalDialog>
+                <MDBModalContent>
+                    <MDBModalHeader>
+                        <MDBModalTitle>Post!</MDBModalTitle>
+                    </MDBModalHeader>
+                    <MDBModalBody>
+                        <MDBTextArea label='Post' id='textAreaExample' value ={newpost} rows={4} onChange = {(e) => setnewPost(e.target.value)} />
+                    </MDBModalBody>
+                    <MDBModalFooter>
+                        <MDBBtn color='secondary' onClick={toggleShow}>
+                            Close
+                        </MDBBtn>
+                        <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost([newpost, email])}>
+                            <MDBIcon far icon="paper-plane" />
+                        </MDBBtn>
+                    </MDBModalFooter> 
+                </MDBModalContent>
+            </MDBModalDialog>
+        </MDBModal>
       </div>
-        <div className = "Post">
-      </div>
-      </div>
+    </div>
 
     </div>
   );
 }
+
 
 class Recommendation extends React.Component {
     render(){
@@ -283,7 +300,7 @@ let egg=true;
 function Books(){
     const {books,status,sendMessage}=useChat()
     const [start,setStart]=useState(false);
-    const [imgs,setImgs]=useState([    
+    const [imgs,setImgs]=useState([
       [ 
         'https://mdbootstrap.com/img/new/standard/city/041.jpg',
           'https://mdbootstrap.com/img/new/standard/city/042.jpg',
@@ -305,15 +322,15 @@ function Books(){
           'https://mdbootstrap.com/img/new/standard/city/052.jpg',
       ],
   ]  )
-    
-    useEffect(()=>{   
+
+    useEffect(()=>{
       if(egg){
         sendMessage("hehe");
         console.log('hoho')  
         egg=false;
       }
+    })
 
-    })   
     useEffect(()=>{
       if(books.length){
         console.log(books);
@@ -365,6 +382,8 @@ function Books(){
 
 function Tab() {
   const [basicActive, setBasicActive] = useState('tab1');
+  const [mypost, setmyPost] = useState([]);
+  const {books, status, post, sendPost} = useChat();
   const device = useRWD();
   const handleBasicClick = (value: string) => {
     if (value === basicActive) {
@@ -373,7 +392,12 @@ function Tab() {
 
     setBasicActive(value);
   }; 
-  console.log(device)
+
+  useEffect(()=>{
+    setmyPost(post)
+    console.log("ssssssssssssssssssssshere:"+mypost)
+  },[post])
+
 
   return (
     <div className = {(device === "mobile") ? "Tab-mobile" : "Tab"}>
@@ -628,7 +652,7 @@ class Item extends React.Component {
 function FrontPage () {
         const device = useRWD();
 
-        return(  
+        return(
             <div className = "FrontPage">
                 <div className = "User-block">
                     <SideBar />
@@ -652,7 +676,6 @@ function FrontPage () {
                         <SideList />
                     </div>
                 </div>)
-                
                 }
             </div>
         );
@@ -675,9 +698,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Login />
         </React.StrictMode>
     </GoogleOAuthProvider> } />
-        <Route path="user" element={ <User /> } />
-        <Route path="/dating" element={ <Dating /> } />
-		<Route path='/search/:keyword' element={<Search/>}/>
+        <Route path="/user" element={ <User /> } />
+        <Route path="/matching" element={ <Dating /> } />
+		<Route path='/search/:keyword/:page' element={ <Search/> }/>
+		<Route path='/book/:keyword' element={ <BookProfile/> }/>
       </Routes>
     </BrowserRouter>
     </ChatProvider>

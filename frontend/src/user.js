@@ -7,6 +7,7 @@ import SideBar from './sidebar.js';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import useRWD from './useRWD.js';
+import {useChat} from './useChat.js';
 import { MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 import { MDBCol, MDBRow } from 'mdb-react-ui-kit';
 import {
@@ -23,6 +24,12 @@ import {
   MDBDropdownItem,
 } from 'mdb-react-ui-kit';
 
+import {
+  MDBCardTitle,
+  MDBCardHeader,
+  MDBCardFooter,
+} from 'mdb-react-ui-kit';
+
 import { MDBBadge } from 'mdb-react-ui-kit';
 
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
@@ -30,8 +37,20 @@ import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
 
 function User(){
-
+  const {books, status, post, sendPost, getMyPost}=useChat();
+  const [mypost, setMyPost] = useState([]);
+  const [change, setChange] = useState([true]);
   const device = useRWD();
+  
+  useEffect(
+    () => {
+            getMyPost(localStorage.getItem("useremail"));
+            setMyPost(post);
+            console.log("post!:", post);
+    },
+    []
+  )
+
   return (
     <div className="User">
             <div className = "User-block">
@@ -78,28 +97,14 @@ function User(){
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <MDBCardText className="lead fw-normal mb-0">Recent photos</MDBCardText>
+                  <MDBCardText className="lead fw-normal mb-0">Recent posts</MDBCardText>
                   <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
                 </div>
                 <MDBRow>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
-                </MDBRow>
-                <MDBRow className="g-2">
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
-                  <MDBCol className="mb-2">
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                      alt="image 1" className="w-100 rounded-3" />
-                  </MDBCol>
+                    {post
+                    .slice(0)
+                    .reverse()
+                    .map((i) => (<><Postcard content = {i}/><br /></>))}
                 </MDBRow>
               </MDBCardBody>
             </MDBCard>
@@ -108,6 +113,18 @@ function User(){
       </MDBContainer>
     </div>
     </div>
+  );
+}
+
+function Postcard(content) {
+    console.log("postcards:", content);
+  return (
+    <MDBCard alignment='center'>
+      <MDBCardBody>
+        <MDBCardText>{content.content}</MDBCardText>
+      </MDBCardBody>
+      <MDBCardFooter className='text-muted' style = {{"font-size" : '1px'}} >2 days ago</MDBCardFooter>
+    </MDBCard>
   );
 }
 export default User;

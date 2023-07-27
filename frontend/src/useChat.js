@@ -1,32 +1,48 @@
-
 import { useState ,useEffect, useContext,createContext} from "react";
 let client = new WebSocket('ws://localhost:4000')
 const ChatContext=createContext({ 
     books:[],
-    status:{}, 
-	result:{},
+    status:{},
+    post:[],
+    result:{},
     sendMessage:()=>{},           
-    clearMessages:()=>{},  
-	Search:()=>{}
+    sendPost:()=>{},
+    setPost:()=>{},
+    getMyPost:()=>{},
+    clearMessages:()=>{}, 
+    createUser:()=>{},
+	Search:()=>{},
 });            
 //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行  
 const ChatProvider=(props)=>{    
     const [books,setBooks]=useState([]);  
-    const [status,setStatus]=useState({});   
+    const [post,setPost]=useState([]);  
+    const [status,setStatus]=useState({}); 
 	const [result,setResult]=useState({num:0,data:[]});
+    
     client.onmessage=(byteString)=>{  
         const {data}=byteString; 
         const [task,payload]=JSON.parse(data);
-        console.log('client task:'+task); 
+        console.log('client task:' + task); 
         switch(task){ 
             case 'output':{  
                 setBooks([...books,...[...new Set(payload)]]);
-                console.log("yayaya"+payload)  
+                console.log("yayaya"+payload); 
                 break;
             } 
+            case 'post':{  
+                setPost([...post,payload]);
+                console.log("yayaya"+payload);
+                break;
+            }
+            case 'mypost':{  
+                setPost(payload);
+                console.log("yayaya"+payload);
+                break;
+            }
 			case 'search':{
 				setResult(payload);
-				console.log('yayaya'+payload)
+				console.log('search:'+payload)
 				break;
 			}
                  
@@ -42,13 +58,35 @@ const ChatProvider=(props)=>{
         console.log("ok");
         Newsend(["init",payload]); 
     }
+
+    const sendPost=(payload)=>{ 
+        console.log("ok");
+        payload = JSON.stringify(payload);
+        console.log(payload);
+        Newsend(["post",payload]); 
+    }
+
+    const getMyPost=(payload)=>{ 
+        console.log("okok");
+        Newsend(["mypost",payload]); 
+    }
+    
+    const createUser=(payload)=>{ 
+        console.log("go create!", payload);
+        payload = JSON.stringify(payload);
+        console.log(payload);
+        Newsend(["createUser",payload]); 
+    }
+
     const clearMessages=()=>{
         sendData(['clear']);
     };
-    const Search=(payload)=>{
+
+    const Search= (k,p)=>{
 		console.log('s');
-		Newsend(['search',payload]);							
+		Newsend(['search',{keyword:k,page:p}]);							
     };   
+
     const waitForConnection = function (callback, interval) {
         if (client.readyState === 1) {
             callback();
@@ -70,8 +108,9 @@ const ChatProvider=(props)=>{
     return ( 
         <ChatContext.Provider
             value={{
-                status,books,result,
-                sendMessage,clearMessages,Search
+                status, books, post,
+                sendMessage, clearMessages, sendPost, getMyPost, createUser,
+                Search, result,
             }}
             {...props}   
         />

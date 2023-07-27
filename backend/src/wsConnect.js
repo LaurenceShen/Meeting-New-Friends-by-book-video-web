@@ -1,5 +1,6 @@
 import {json} from 'express'
-import {UserModel} from './model/User.js'
+import User from './model/User.js'
+import Post from './model/Post.js'
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
@@ -18,14 +19,13 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
 // options.addArguments('disable-gpu')
 options.windowSize({width:1200,height:1080})
 
-
-
 async function openCrawlerWeb() {
 
         // 建立這個browser的類型
         // let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().addArguments('--headless')).build();
         let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//
         const web = 'https://www.eslite.com/best-sellers/bookstore';//填寫你想要前往的網站
+        console.log("start!")
         await driver.get(web)//透國這個driver打開網頁
         // const yo=await driver.wait(until.elementsLocated(By.css(".close-btn"))) 
         // console.log(await yo[0].findElement(By.css('button')))
@@ -55,7 +55,6 @@ async function openCrawlerWeb() {
         // } 
         let cat_son=[];
         try{
-            
             const allimg =await driver.wait(until.elementsLocated(By.css(".item-image-wrap img")),5000)
             console.log(allimg.length)
             for(const img of allimg){
@@ -95,19 +94,19 @@ async function openCrawlerWeb() {
 
          
         console.log("hohoho")
-        driver.quit();
+        await driver.quit();
 	//await search('python');
         // console.log(await yo[0].getAttribute('innerHTML'))
         return cat_son;
     }
-async function search(inputString){
+async function search(inputString,page){
 	
 	//let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//
 	let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().windowSize({width:1800,height:1080}).addArguments('--headless=new')) .build();
 	console.log(1)
-	const web=`https://www.eslite.com/Search?keyword=${inputString}&final_price=0,&publishDate=0&sort=_weight_+desc&display=list&start=0&categories=[3]` //categories=3 中文出版
+	const web=`https://www.eslite.com/Search?keyword=${inputString}&final_price=0,&publishDate=0&sort=_weight_+desc&display=list&start=${page-1}&categories=[3]` //categories=3 中文出版
 	//const web = 'https://www.eslite.com/best-sellers/bookstore';//填寫你想要前往的網站
-	console.log(2);
+	console.log(page);
 	await driver.get(web)
 	console.log("search...")
 	await driver.sleep(2000);
@@ -162,21 +161,47 @@ const broadcastMessage=(clients,data,status)=>{
         sendStatus(status,client);
     });
 }
+
+const savePost = async (id, email, title, content) => {
+    try {
+    const newPost = new Post({ id, email, title, content });
+    console.log("Created post", newPost);
+    return newPost.save();
+    } catch (e) { throw new Error("Post creation error: " + e); }
+   };
+
+const getPost = async(email) => {
+    try{
+    const userpost = await Post.find({"email": email});
+    let postcontent = userpost.map((i) => i.content)
+    return postcontent;
+    } catch (e) { throw new Error("Post search error: " + e); }
+   };
+
+const saveUser = async (name, email) => {
+    const existing = await User.findOne({ name });
+    if (existing) return;
+    try {
+    const newUser = new User({ name, email });
+    console.log("Created user", newUser);
+    return newUser.save();
+    } catch (e) { throw new Error("User creation error: " + e); }
+   };
+
 export default{
     onMessage:(wss,ws)=>(
-        
         async(byteString)=>{
             console.log("hhhh",byteString.data)
             const {data}=byteString ;
             const [task,payload]=JSON.parse(data);
-         
+            console.log("hhh", data);
             switch(task){
                 case 'init':
                     {
-                       
                        // const res=await openCrawlerWeb();
+                        //console.log(res)
                         const res=[];
-						console.log(res)
+						//console.log(res)
                         broadcastMessage(
                             [ws],['output',res],{
                                 type:'success',
@@ -185,16 +210,46 @@ export default{
                         );
                         break; 
                     }
+                case 'post':
+                   {
+                        console.log("dsfgf:", payload);
+                        const [payloads, email] = JSON.parse(payload);
+                        console.log("email:", email);
+                        savePost("1", email ,"test", payloads);
+                        console.log('post');
+                        break;
+                    }
+
+                case 'mypost':
+                   {
+                        const mypost = await getPost(payload);
+                        console.log('getpost', mypost);
+                        broadcastMessage(
+                            wss.clients, ['mypost', mypost],{
+                            }
+                        );
+                        break;
+                    }
+
+                case 'createUser':
+                   {
+                        console.log("createUser:", payload);
+                        const [name, email] = JSON.parse(payload);
+                        console.log("createUser:", name);
+                        saveUser(name, email);
+                        break;
+                   }
+
 				case 'search':{
-					const res =await search(payload);
-					console.log(res);
+					const res = await search(payload.keyword,payload.page);
+                    console.log(res);
 					broadcastMessage(
                             [ws],['search',res],{
                                 type:'success',
                                 msg: 'Message sent.',
                             }
-                        );
-					break;	
+                    );
+					break;
 				}
 		default:
                     console.log('fault');

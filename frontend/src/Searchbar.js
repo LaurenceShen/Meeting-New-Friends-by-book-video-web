@@ -25,7 +25,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 import { MDBCol, MDBRow } from 'mdb-react-ui-kit';
 import Divider from '@mui/material/Divider';
-import {Link} from 'react-router-dom';
+import {Link,useLocation} from 'react-router-dom';
 /*
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -99,16 +99,27 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
   const [keyin,setKeyin]=useState(keyword)
+  const [showrcount,setShowrcount]=useState(0);
+  let location=useLocation();
   useEffect(()=>{
 	setKeyin(keyword);
 	},[keyword])
+  useEffect(()=>{
+	setShowrcount(rcount);
+  },[rcount])
+  useEffect(()=>{
+	setShowrcount(0)
+  },[location])
   return(
   <div> 
   	<Box sx={{height:30,}}/>
   	<Rowdiv>
+      &nbsp;&nbsp;
     <NewUserblock>
       <SideBar />
     </NewUserblock> 
+      &nbsp;&nbsp;
+      &nbsp;&nbsp;
     <div className = "Search-Column-bar" style={{width:'70%'}}>
       <MDBInputGroup> 
         <MDBInput label='Search' value={keyin} style = {{height:"90%"}} onChange={e=>setKeyin(e.target.value)}/>
@@ -126,8 +137,11 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
 		height:40,
 	}}/>
 	<Dividerdiv>
-   <Divider variant="middle" spacing={5}  component="div" sx={{width:"80%",backgroundColor:"#ffffff"}} >
-   {`About ${rcount} results`}</Divider>
+   {rcount >= 0 ?
+   <Divider variant="middle" spacing={5}  component="div" sx={{width:"80%"}} >
+    {showrcount && `About ${showrcount} results`}
+   </Divider>
+   :(<></>)}
 	</Dividerdiv>
   </div>
 
