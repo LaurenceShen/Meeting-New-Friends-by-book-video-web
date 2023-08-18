@@ -14,9 +14,6 @@
     text-align: center;
 }
 
-.Nav-Bar{
-    height: 100%;
-}
 
 .User-block{
     padding-top:5%;
@@ -56,6 +53,10 @@
 
 .Search-Bar{
     height: 100%;
+}
+
+.search-bar-small{
+    padding-top:2%;
 }
 
 .Search-Block{
