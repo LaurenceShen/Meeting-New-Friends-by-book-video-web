@@ -14,6 +14,7 @@ const ChatContext=createContext({
     getMyPost:()=>{},
     clearMessages:()=>{}, 
     createUser:()=>{},
+    createBook:()=>{},
 	Search:()=>{},
 	sendToken:()=>{},
 	setProfile:()=>{},
@@ -82,7 +83,12 @@ const ChatProvider=(props)=>{
         console.log(payload);
         Newsend(["createUser",payload]); 
     }
-
+    const createBook=(payload)=>{                                                                            
+        console.log("go create book!", payload);                                                             
+        payload = JSON.stringify(payload);                                                                   
+        console.log(payload);                                                                                
+        Newsend(["createBook",payload]);                                                                     
+    }
     const clearMessages=()=>{
         sendData(['clear']);
     };
@@ -140,7 +146,7 @@ const ChatProvider=(props)=>{
         <ChatContext.Provider
             value={{
                 status, books, post,
-                sendMessage, clearMessages, sendPost, getMyPost, createUser,
+                sendMessage, clearMessages, sendPost, getMyPost, createUser,createBook,
                 Search, result,sendToken,profile,setProfile
             }}
             {...props}   
