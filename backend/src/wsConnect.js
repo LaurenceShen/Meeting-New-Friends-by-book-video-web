@@ -4,7 +4,7 @@ import Post from './model/Post.js'
 const {OAuth2Client}=require('google-auth-library')
 const CLIENT_ID='325684444932-r6ba80mc6eong2p7dnn62flrqd3266c6.apps.googleusercontent.com'
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+    By = webdriver.By,//想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
 const chrome = require('selenium-webdriver/chrome');
 
