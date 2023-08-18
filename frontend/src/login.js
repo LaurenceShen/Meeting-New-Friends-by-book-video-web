@@ -33,39 +33,27 @@ import axios from 'axios';
 import {ChatProvider,useChat} from './useChat.js'
 
 function Login(){
-    const { books, status, post, createUser }=useChat();
-    const [ user, setUser ] = useState([]);
-    const [ profile, setProfile ] = useState([]);
+    const { books, status, post, createUser,profile,setProfile ,sendToken}=useChat();
 
     const login = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
+        onSuccess: async (codeResponse) => {
+			localStorage.setItem('token',codeResponse.access_token)
+			console.log('coderesponse: ',codeResponse);
+			console.log(sendToken());
+		},
         onError: (error) => console.log('Login Failed:', error)
     });
-
-    useEffect(
-        () => {
-            if (user) {
-                axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        setProfile(res.data);
-                    })
-                    .catch((err) => console.log(err));
-            }
-        },
-        [ user ]
-    );
+	useEffect(
+		()=>{sendToken()},[]
+	)
 
     useEffect(
         () =>{
-            if (profile && !localStorage.getItem("useremail")){
+            if (profile.name){
                 localStorage.setItem("useremail", profile.email);
                 createUser([profile.name, profile.email])
             }
+			console.log('jkjk',profile);
         },
         [profile]
     )
@@ -73,8 +61,7 @@ function Login(){
     // log out function to log the user out of google and set the profile array to null
     const logOut = () => {
         googleLogout();
-        setProfile(null);
-        setUser(null);
+        setProfile({});
         localStorage.clear();
     };
 
@@ -83,14 +70,14 @@ function Login(){
             <div className = "User-block">
                 <SideBar />
             </div>
-                {profile ? (
+                {profile.name ? (
                 <div className="Login-Block">
                     <h2 className = "Title">Logged in!</h2>
                     <br />
                     <br />
                     <div className = "Google-Login">
-                        <p>Welcome,  {profile.name}!<br /></p>
-                        <p>Welcome,  {profile.email}!<br /></p>
+                        <p>{`Welcome,${profile.name}!`}</p>
+                        <p>Welcome,{profile.email}!<br /></p>
                         <a> Go to write your first post! &nbsp;</a>
                         <a href = '/'><MDBIcon fas icon="pen-alt" /></a>
                     <br />

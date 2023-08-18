@@ -215,16 +215,25 @@ function NavBar(){
 }
 
 function SearchBar(){
-  const {books, status, post, sendPost}=useChat()
+  const {books, status, post, sendPost,sendToken,profile}=useChat()
   const [basicModal, setBasicModal] = useState(false);
   const [newpost, setnewPost] = useState('');
-  const toggleShow = () => setBasicModal(!basicModal);
+  const navigate=useNavigate();
+  const toggleShow = () =>{
+	if(!basicModal){
+	if(sendToken()){
+	 setBasicModal(!basicModal);
+	}else{
+		navigate('/login');
+	}}else{
+		setBasicModal(!basicModal);
+	}
+  }
   const [showSearchAlert, setShowSearchAlert] = useState(false);
   const [email, setEmail] = useState('');
 
   const [keyin,setKeyin]=useState("")
   const {Search}=useChat(); 
-  const navigate=useNavigate();
 
   useEffect(
   () =>{
@@ -234,7 +243,7 @@ function SearchBar(){
   )
 
   let handlePost = () => {
-    sendPost([newpost, email]);
+    sendPost([newpost,profile.email]);
     setBasicModal(!basicModal);
     setnewPost('');
   }
@@ -248,7 +257,7 @@ function SearchBar(){
       </div>  
       <div className = "Search-and-Post"> 
         <div className = "Search-Button">
-	        <Link to={`/search/${keyin}`}> 
+	        <Link to={`/search/${keyin}/1`}> 
                 <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))' }}>
                     <MDBIcon  icon='search' />
                 </MDBBtn> 
@@ -700,7 +709,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </GoogleOAuthProvider> } />
         <Route path="/user" element={ <User /> } />
         <Route path="/matching" element={ <Dating /> } />
-		<Route path='/search/:keyword' element={ <Search/> }/>
+		<Route path='/search/:keyword/:page' element={ <Search/> }/>
 		<Route path='/book/:keyword' element={ <BookProfile/> }/>
       </Routes>
     </BrowserRouter>

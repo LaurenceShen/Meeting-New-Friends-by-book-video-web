@@ -7,7 +7,10 @@ import Searchselector from './Searchselector.js';
 import styled from 'styled-components';
 import {useChat} from './useChat.js';
 import './index.css';
-import {useParams, useLocation} from 'react-router-dom';
+import {useParams, useLocation,useNavigate} from 'react-router-dom';
+import Pagination from '@mui/material/Pagination';
+import City from './City.js';
+
 const tmp_result=[
         {
             name:"金庸作品集(新修版/36冊合售)",
@@ -45,22 +48,42 @@ const Rowdiv=styled.div`
 	display:flex;
 	flex-direction:row;
 	justify-content:space-between;
-	position:absolute;
 	padding-right:50px;
+	margin-bottom:50px;
 	width:95%;
+`;
+const Bigdiv=styled.div`
+	position:absolute;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	width:100%;
+	padding:5;
+	padding-top:3;
+	padding-left:50px;	
+	padding-bottom:100px;
+`;
+const Citydiv=styled.div`
+	 width: 90vw;
+	  height: 50vh;
+ 	 display: flex;
+	  box-sizing: border-box;
 `;
 export default function Search(){
 	const [rcount,setRcount]=useState(5);
 	const [key,setKey]=useState("");
 	const {result,Search}=useChat();
-	const {keyword}=useParams();
+	const {keyword,page}=useParams();
 	const [showresult,setShowresult]=useState([])
+	const [showpage,setShowpage]=useState(1);
+	const [maxpage,setMaxpage]=useState(1);
 	let location = useLocation();
-	
+	const navigate=useNavigate();	
     useEffect(()=>{
 		let ignore=false;
 		if(!ignore){
-			Search(keyword)
+			Search(keyword,page)
+			setShowpage(Number(page));
 		}
 		return ()=>{
 			ignore=true;
@@ -71,6 +94,7 @@ export default function Search(){
 	useEffect(()=>{
 		setShowresult(result.data);
 		setRcount(result.num);
+		setMaxpage(result.pagenum);
 	},[result])	
  
     useEffect(()=>{
@@ -81,22 +105,20 @@ export default function Search(){
     return (
 	<div className = "FrontPage">
 		<Searchbar rcount={rcount} keyword={keyword}/>
-		 <Box
-    		 sx={{
-       		 width:"70%",
-			padding:5,
-			pt:2,
-		/*	backgroundColor:"primary.dark",*/
-			}}
-		 >
+		 <Bigdiv>
   		{/*<Typography variant="subtitle1" sx={{pl:5,}} gutterBottom>
 			{`About ${rcount} results`}
 		</Typography>*/}
         <Rowdiv>
 			<Searchlist result={result.data} keyword={key}/>
 			<Searchselector/>
+			
 		</Rowdiv>
-		</Box>
+		<Citydiv>
+		<City/>
+		</Citydiv>
+		<Pagination count={maxpage} page={showpage} shape="rounded" size="large" onChange={(e,p)=>navigate(`/search/${keyword}/${p}`)}  components='div'/>
+		</Bigdiv>
 	</div>
 	);
 }
