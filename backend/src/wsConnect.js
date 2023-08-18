@@ -1,6 +1,7 @@
 import {json} from 'express'
 import User from './model/User.js'
 import Post from './model/Post.js'
+import Book from './model/Book.js'
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
@@ -183,6 +184,18 @@ const saveUser = async (name, email) => {
     } catch (e) { throw new Error("User creation error: " + e); }
    };
 
+const saveBook = async (name, author, img, description, src, rank, comment) => {
+    const existing = await Book.findOne({ name });
+    if (existing) return;
+    try {
+    const newBook = new Book({ name, author, img, description, src, rank, comment});
+    console.log("Created book!!", newBook._id.valueOf());
+    let id = newBook._id.valueOf();
+    newBook.save();
+    return id;
+    } catch (e) { throw new Error("Book creation error: " + e); }
+   };
+
 export default{
     onMessage:(wss,ws)=>(
         async(byteString)=>{
@@ -193,9 +206,9 @@ export default{
             switch(task){
                 case 'init':
                     {
-                       // const res=await openCrawlerWeb();
-                        //console.log(res)
-                        const res=[];
+                        const res=await openCrawlerWeb();
+                        console.log(res)
+                        //const res=[];
 						//console.log(res)
                         broadcastMessage(
                             [ws],['output',res],{
@@ -232,6 +245,22 @@ export default{
                         const [name, email] = JSON.parse(payload);
                         console.log("createUser:", name);
                         saveUser(name, email);
+                        break;
+                   }
+
+                case 'createBook':
+                   {
+                        console.log("createBook:", payload);
+                        const [name, author, img, description, src] = JSON.parse(payload);
+                        console.log("createBook:", name);
+                        const id = await saveBook(name, author, img, description, src, '1', "hi");
+                        console.log("id", id);
+					    broadcastMessage(
+                            [ws],['bookid',id],{
+                                type:'success',
+                                msg: 'Message sent.',
+                            }
+                        );
                         break;
                    }
 

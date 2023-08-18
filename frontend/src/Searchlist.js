@@ -9,13 +9,18 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import {useState,useEffect} from 'react'
-import {useLocation, Link} from 'react-router-dom'
+import {useState,useEffect} from 'react';
+import {ChatProvider,useChat} from './useChat.js'
+import {useLocation, Link, useNavigate} from 'react-router-dom'
 import Loading from './Loading.js'
 
 export default function Searchlist({result}) {
 	console.log("slist:", result); 
 	const [showresult,setShowresult]=useState([]);
+    const navigate = useNavigate();
+    const { createBook } = useChat();
+    const { bookid } = useChat();
+    const [ bookurl, setBookUrl ] = useState([]);
 	let location=useLocation();
 	useEffect(()=>{
 		setShowresult(result);
@@ -23,6 +28,19 @@ export default function Searchlist({result}) {
 	useEffect(()=>{
 		setShowresult([])
 	},[location])
+
+	useEffect(()=>{
+		setBookUrl(bookid);
+	},[bookid])
+
+    const handleClick = async (r) => {
+        await createBook([r.name, r.author, r.img, r.description, r.src]);
+        console.log("bookid", bookid);
+        while(bookid===[])
+        {}
+        navigate(`/book/${bookid}`);
+
+    }
  return (
 	<>
 	{showresult.length>0 ? 
@@ -38,8 +56,7 @@ export default function Searchlist({result}) {
 			display:"flex",
 			alignItems:"center",
 		}}>
-			<Link to ={`../../book/${r.name}`} ><img style={{height:"100%",maxWidth:100}} alt="book1" src={r.img}/>
-        </Link>
+		<img style={{height:"100%",maxWidth:100}} alt="book1" src={r.img} onClick={()=>handleClick(r)}/>
         </ListItemAvatar>
 		<Box sx={{pt:1}}>
         <ListItemText

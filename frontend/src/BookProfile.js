@@ -107,9 +107,15 @@ function ShortComment(){
 
   const [keyin,setKeyin]=useState("")
 
+  useEffect(
+  () =>{
+    setEmail(localStorage.getItem('useremail'))
+  },
+  [localStorage.getItem('useremail')]
+  )
+
   let handlePost = () => {
     sendPost([newpost, email]);
-    setBasicModal(!basicModal);
     setnewPost('');
   }
     return(
@@ -122,7 +128,7 @@ function ShortComment(){
         </>
         );
 }
-export default function BookProfile(){
+export default function BookProfile(r){
 	const [rcount,setRcount]=useState(-1);
 	const [key,setKey]=useState("");
 	const {keyword}=useParams();
@@ -177,11 +183,6 @@ export default function BookProfile(){
           </MDBTabsLink>
         </MDBTabsItem>
         <MDBTabsItem>
-          <MDBTabsLink onClick={() => handleBasicClick('tab2')} active={basicActive === 'tab2'}>
-            author
-          </MDBTabsLink>
-        </MDBTabsItem>
-        <MDBTabsItem>
           <MDBTabsLink onClick={() => handleBasicClick('tab3')} active={basicActive === 'tab3'}>
             comment
           </MDBTabsLink>
@@ -190,7 +191,6 @@ export default function BookProfile(){
 
       <MDBTabsContent>
         <MDBTabsPane show={basicActive === 'tab1'}>Tab 1 content</MDBTabsPane>
-        <MDBTabsPane show={basicActive === 'tab2'}>Tab 2 content</MDBTabsPane>
         <MDBTabsPane show={basicActive === 'tab3'}><ShortComment /></MDBTabsPane>
       </MDBTabsContent>
         </div>
