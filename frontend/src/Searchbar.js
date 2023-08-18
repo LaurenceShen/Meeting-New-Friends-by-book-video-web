@@ -25,7 +25,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 import { MDBCol, MDBRow } from 'mdb-react-ui-kit';
 import Divider from '@mui/material/Divider';
-import {Link} from 'react-router-dom';
+import {Link,useLocation} from 'react-router-dom';
 /*
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -88,15 +88,28 @@ const Rowdiv=styled.div`
 const Bigdiv=styled.div`
 	height:50%;
 `;
+const Dividerdiv=styled.div`
+	width:100%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+`
 export default function PrimarySearchAppBar({rcount,keyword}) {
   const [basicModal, setBasicModal] = useState(false);
   const toggleShow = () => setBasicModal(!basicModal);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
   const [keyin,setKeyin]=useState(keyword)
-  const {Search}=useChat(); 
+  const [showrcount,setShowrcount]=useState(0);
+  let location=useLocation();
   useEffect(()=>{
 	setKeyin(keyword);
 	},[keyword])
+  useEffect(()=>{
+	setShowrcount(rcount);
+  },[rcount])
+  useEffect(()=>{
+	setShowrcount(0)
+  },[location])
   return(
   <div> 
   	<Box sx={{height:30,}}/>
@@ -112,7 +125,7 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
         <MDBInput label='Search' value={keyin} style = {{height:"90%"}} onChange={e=>setKeyin(e.target.value)}/>
       </MDBInputGroup>
       &nbsp;&nbsp;
-	   <Link to={`/search/${keyin}`}> 
+	   <Link to={`/search/${keyin}/1`}> 
         <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))',width:"50px" }}>
             <MDBIcon  icon='search' />
         </MDBBtn> 
@@ -121,13 +134,15 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
 	</Rowdiv>
 	<Box sx={{
 		md:2,
-		height:30,
+		height:40,
 	}}/>
+	<Dividerdiv>
    {rcount >= 0 ?
-   <Divider variant="middle" spacing={5}  component="div" >
-    {`About ${rcount} results`}
+   <Divider variant="middle" spacing={5}  component="div" sx={{width:"80%"}} >
+    {showrcount && `About ${showrcount} results`}
    </Divider>
    :(<></>)}
+	</Dividerdiv>
   </div>
 
       );
