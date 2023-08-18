@@ -128,6 +128,15 @@ function ShortComment(){
         </>
         );
 }
+
+function intro(r){
+    return (
+        <div>
+            <h4> {r.name} </h4>
+        </div>
+    );
+}
+
 export default function BookProfile(r){
 	const [rcount,setRcount]=useState(-1);
 	const [key,setKey]=useState("");
@@ -145,7 +154,7 @@ export default function BookProfile(r){
     };
     return (
 	<div className = "FrontPage">
-		<Searchbar rcount={rcount} keyword={keyword}/>
+		<Searchbar rcount={rcount} keyword={location.state.name}/>
 		 <Box
     		 sx={{
        		 width:"70%",
@@ -161,7 +170,7 @@ export default function BookProfile(r){
         <div className = "BookProfile">
             <div className = "image-and-comment">
                 <div className = 'img'>
-                    <img src = "../1.jpeg" style = {{height:"30%"}} />
+                    <img src = {location.state.img} style = {{height:"30%"}} />
                 </div>
                 <div className = "comment">
                     {[...new Array(ROWS)].map((_, i) => (
@@ -190,13 +199,35 @@ export default function BookProfile(r){
       </MDBTabs>
 
       <MDBTabsContent>
-        <MDBTabsPane show={basicActive === 'tab1'}>Tab 1 content</MDBTabsPane>
-        <MDBTabsPane show={basicActive === 'tab3'}><ShortComment /></MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab1'}>
+            <h5>{location.state.name}</h5>
+            <br/>
+            {location.state.description}
+            <br />
+            <ul>
+                <li>
+                    作者：{location.state.author}
+                </li>
+                <li>
+                    連結：{location.state.src}
+                </li>
+            </ul>
+        </MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab3'}>
+            <ul>
+                <li> 難得一見的佳作！</li>
+                <li> 他爛透了 </li>
+            </ul>
+        </MDBTabsPane>
       </MDBTabsContent>
         </div>
         <div className = "shortcomment">
+            {basicActive === 'tab3' ?
             <ShortComment />
+            : <></>
+            }
 	    </div>
+        
 	</div>
 	</div>
 	);

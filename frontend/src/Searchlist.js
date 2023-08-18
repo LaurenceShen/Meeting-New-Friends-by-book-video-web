@@ -14,13 +14,16 @@ import {ChatProvider,useChat} from './useChat.js'
 import {useLocation, Link, useNavigate} from 'react-router-dom'
 import Loading from './Loading.js'
 
+//pass parameters by navigate: https://stackoverflow.com/questions/72017435/how-can-i-pass-parameters-to-route-with-navigate-function-in-react
+
 export default function Searchlist({result}) {
 	console.log("slist:", result); 
 	const [showresult,setShowresult]=useState([]);
+	const [rbook,setRbook]=useState({});
+	const [bookurl,setBookUrl]=useState("");
     const navigate = useNavigate();
     const { createBook } = useChat();
-    const { bookid } = useChat();
-    const [ bookurl, setBookUrl ] = useState([]);
+    const { bookid , setBookId} = useChat();
 	let location=useLocation();
 	useEffect(()=>{
 		setShowresult(result);
@@ -29,18 +32,31 @@ export default function Searchlist({result}) {
 		setShowresult([])
 	},[location])
 
-	useEffect(()=>{
-		setBookUrl(bookid);
-	},[bookid])
 
     const handleClick = async (r) => {
+        setRbook(r);
         await createBook([r.name, r.author, r.img, r.description, r.src]);
-        console.log("bookid", bookid);
-        while(bookid===[])
-        {}
-        navigate(`/book/${bookid}`);
-
     }
+
+	useEffect(()=>{
+        console.log("bookurl2", bookid);
+        setBookUrl(bookid);
+        setBookId(null);
+        console.log("bookurl", bookurl);
+        if (bookurl !== "")
+        navigate(`/book/${bookurl}`,{
+            state: {
+                img: rbook.img,
+                name: rbook.name,
+                author: rbook.author,
+                description: rbook.description,
+                src: rbook.src,
+            },
+        }
+        );
+	}
+    ,[bookid])
+
  return (
 	<>
 	{showresult.length>0 ? 
