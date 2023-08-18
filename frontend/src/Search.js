@@ -76,13 +76,14 @@ export default function Search(){
 	const {keyword,page}=useParams();
 	const [showresult,setShowresult]=useState([])
 	const [showpage,setShowpage]=useState(1);
+	const [maxpage,setMaxpage]=useState(1);
 	let location = useLocation();
 	const navigate=useNavigate();	
     useEffect(()=>{
 		let ignore=false;
 		if(!ignore){
 			Search(keyword,page)
-			setShowpage(page);
+			setShowpage(Number(page));
 		}
 		return ()=>{
 			ignore=true;
@@ -93,6 +94,7 @@ export default function Search(){
 	useEffect(()=>{
 		setShowresult(result.data);
 		setRcount(result.num);
+		setMaxpage(result.pagenum);
 	},[result])	
  
     useEffect(()=>{
@@ -115,7 +117,7 @@ export default function Search(){
 		<Citydiv>
 		<City/>
 		</Citydiv>
-		<Pagination count={10} page={page} shape="rounded" size="large" onChange={(e,p)=>navigate(`/search/${keyword}/${p}`)}  components='div'/>
+		<Pagination count={maxpage} page={showpage} shape="rounded" size="large" onChange={(e,p)=>navigate(`/search/${keyword}/${p}`)}  components='div'/>
 		</Bigdiv>
 	</div>
 	);

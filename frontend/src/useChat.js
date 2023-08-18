@@ -1,10 +1,13 @@
 import { useState ,useEffect, useContext,createContext} from "react";
+import {useLocation} from 'react-router-dom';
+import axios from 'axios';
 let client = new WebSocket('ws://localhost:4000')
 const ChatContext=createContext({ 
     books:[],
     status:{},
     post:[],
     result:{},
+	profile:{},
     sendMessage:()=>{},           
     sendPost:()=>{},
     setPost:()=>{},
@@ -12,6 +15,8 @@ const ChatContext=createContext({
     clearMessages:()=>{}, 
     createUser:()=>{},
 	Search:()=>{},
+	sendToken:()=>{},
+	setProfile:()=>{},
 });            
 //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行  
 const ChatProvider=(props)=>{    
@@ -19,7 +24,7 @@ const ChatProvider=(props)=>{
     const [post,setPost]=useState([]);  
     const [status,setStatus]=useState({}); 
 	const [result,setResult]=useState({num:0,data:[]});
-    
+	const [profile,setProfile]=useState({});
     client.onmessage=(byteString)=>{  
         const {data}=byteString; 
         const [task,payload]=JSON.parse(data);
@@ -67,7 +72,7 @@ const ChatProvider=(props)=>{
     }
 
     const getMyPost=(payload)=>{ 
-        console.log("okok");
+        console.log("getmypost",payload);
         Newsend(["mypost",payload]); 
     }
     
@@ -86,6 +91,32 @@ const ChatProvider=(props)=>{
 		console.log('s');
 		Newsend(['search',{keyword:k,page:p}]);							
     };   
+	const sendToken=()=>{
+	   const token=localStorage.getItem('token');
+		let flag=true;
+		if(token){
+       axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`, {
+              headers: {
+                     Authorization: `Bearer ${token}`,
+                     Accept: 'application/json'
+              }
+              })
+              .then((res) => {
+				console.log('Authenticate Ok');
+				setProfile(res.data);
+				console.log(res.data);				
+              })
+              .catch((err) =>{
+				 console.log(err)
+				 console.log('failed')
+					flag=false;	
+				});
+		}else{
+			console.log('no token');
+			flag=false;
+		}
+		return flag;
+	}
 
     const waitForConnection = function (callback, interval) {
         if (client.readyState === 1) {
@@ -110,7 +141,7 @@ const ChatProvider=(props)=>{
             value={{
                 status, books, post,
                 sendMessage, clearMessages, sendPost, getMyPost, createUser,
-                Search, result,
+                Search, result,sendToken,profile,setProfile
             }}
             {...props}   
         />

@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes,useNavigate } from "react-router-dom";
 import './user.css';
 import SideBar from './sidebar.js';
 /* mdb-react-ui-kit */
@@ -37,18 +37,29 @@ import SidebarMenu from 'react-bootstrap-sidebar-menu';
 import { MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
 
 function User(){
-  const {books, status, post, sendPost, getMyPost}=useChat();
+  const {books, status, post,profile, sendPost, getMyPost,sendToken}=useChat();
   const [mypost, setMyPost] = useState([]);
   const [change, setChange] = useState([true]);
   const device = useRWD();
+  const navigate=useNavigate();	
   
   useEffect(
     () => {
-            getMyPost(localStorage.getItem("useremail"));
-            setMyPost(post);
-            console.log("post!:", post);
+			if(!sendToken()){
+				navigate('/login');				
+			}
     },
     []
+  )
+  useEffect(
+	()=>{
+		if(profile.email){
+			getMyPost(profile.email);
+			setMyPost(post);
+			console.log('pp',profile);
+
+		}
+    },[profile]		
   )
 
   return (
@@ -63,12 +74,13 @@ function User(){
             <MDBCard>
               <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '200px' }}>
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
-                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                  {/*https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp*/}
+                  <MDBCardImage src={profile.picture}
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                  <MDBTypography tag="h5">Andy Horwitz</MDBTypography>
-                  <MDBCardText>New York</MDBCardText>
+                  <MDBTypography tag="h5">{profile.name}</MDBTypography>
+                  <MDBCardText>{profile.email}</MDBCardText>
                 </div>
               </div>
               <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>

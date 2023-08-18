@@ -125,7 +125,7 @@ export default function PrimarySearchAppBar({rcount,keyword}) {
         <MDBInput label='Search' value={keyin} style = {{height:"90%"}} onChange={e=>setKeyin(e.target.value)}/>
       </MDBInputGroup>
       &nbsp;&nbsp;
-	   <Link to={`/search/${keyin}`}> 
+	   <Link to={`/search/${keyin}/1`}> 
         <MDBBtn size='lg'  floating onClick={()=>{console.log(keyin);}} style={{ background: 'linear-gradient(to right, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5))',width:"50px" }}>
             <MDBIcon  icon='search' />
         </MDBBtn> 

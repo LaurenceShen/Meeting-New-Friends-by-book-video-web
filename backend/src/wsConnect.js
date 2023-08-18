@@ -1,6 +1,8 @@
 import {json} from 'express'
 import User from './model/User.js'
 import Post from './model/Post.js'
+const {OAuth2Client}=require('google-auth-library')
+const CLIENT_ID='325684444932-r6ba80mc6eong2p7dnn62flrqd3266c6.apps.googleusercontent.com'
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
@@ -101,7 +103,7 @@ async function openCrawlerWeb() {
     }
 async function search(inputString,page){
 	
-	//let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//
+	//let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(options.addArguments('--headless=new')).build();//options.addArguments('blink-settings=imagesEnabled=false')
 	let driver = await new webdriver.Builder().forBrowser("chrome").setChromeOptions(new chrome.Options().windowSize({width:1800,height:1080}).addArguments('--headless=new')) .build();
 	console.log(1)
 	const web=`https://www.eslite.com/Search?keyword=${inputString}&final_price=0,&publishDate=0&sort=_weight_+desc&display=list&start=${page-1}&categories=[3]` //categories=3 中文出版
@@ -143,8 +145,17 @@ async function search(inputString,page){
 		}
 		result.push(book);
 	}
+	let pagenum=1;
+	try{
+	let pagination=await driver.wait(until.elementLocated(By.css('.page-number')),2000);
+	let pages=await pagination.findElements(By.css('.page-items-group'));
+	pagenum=await pages[pages.length-1].getText()
+	}catch(e){
+		console.log(e);
+		pagenum=1;
+	}
 	driver.quit();
-	return {num:num,data:result}
+	return {num:num,data:result,pagenum:Number(pagenum)}
 }
 
 
@@ -179,7 +190,7 @@ const getPost = async(email) => {
    };
 
 const saveUser = async (name, email) => {
-    const existing = await User.findOne({ name });
+    const existing = await User.findOne({ email });
     if (existing) return;
     try {
     const newUser = new User({ name, email });
@@ -187,14 +198,23 @@ const saveUser = async (name, email) => {
     return newUser.save();
     } catch (e) { throw new Error("User creation error: " + e); }
    };
-
+const verify=async (token)=>{
+	const client = new OAuth2Client(CLIENT_ID)
+  //將token和client_Id放入參數一起去做驗證
+  const ticket = await client.verifyIdToken({
+    idToken:`Bearer ${token}`,
+    audience: CLIENT_ID
+  })
+  
+  //拿到的ticket就是換回來的使用者資料
+  console.log(ticket)
+}
 export default{
     onMessage:(wss,ws)=>(
         async(byteString)=>{
-            console.log("hhhh",byteString.data)
             const {data}=byteString ;
             const [task,payload]=JSON.parse(data);
-            console.log("hhh", data);
+			console.log('ww',payload)
             switch(task){
                 case 'init':
                     {
@@ -249,6 +269,10 @@ export default{
                                 msg: 'Message sent.',
                             }
                     );
+					break;
+				}
+				case 'token':{
+					await verify(payload)
 					break;
 				}
 		default:
