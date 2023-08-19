@@ -23,7 +23,7 @@ export default function Searchlist({result}) {
 	const [bookurl,setBookUrl]=useState("");
     const navigate = useNavigate();
     const { createBook } = useChat();
-    const { bookid , setBookId} = useChat();
+    const { bookid , setBookId } = useChat();
 	let location=useLocation();
 	useEffect(()=>{
 		setShowresult(result);
@@ -41,21 +41,28 @@ export default function Searchlist({result}) {
 	useEffect(()=>{
         console.log("bookurl2", bookid);
         setBookUrl(bookid);
-        setBookId(null);
         console.log("bookurl", bookurl);
-        if (bookurl !== "")
-        navigate(`/book/${bookurl}`,{
-            state: {
-                img: rbook.img,
-                name: rbook.name,
-                author: rbook.author,
-                description: rbook.description,
-                src: rbook.src,
-            },
-        }
-        );
 	}
     ,[bookid])
+    
+    useEffect(()=>{
+        if (bookid !== null && bookid !== ""){
+            setBookId(null);
+            navigate(`/book/${bookurl}`,{
+                state: {
+                    img: rbook.img,
+                    name: rbook.name,
+                    author: rbook.author,
+                    description: rbook.description,
+                    src: rbook.src,
+                },
+            });
+        }
+    },[bookurl])
+    
+    useEffect(()=>{
+        
+    }, [bookurl])
 
  return (
 	<>
