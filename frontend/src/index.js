@@ -219,6 +219,7 @@ function SearchBar(){
   const {books, status, post, sendPost,sendToken,profile}=useChat()
   const [basicModal, setBasicModal] = useState(false);
   const [newpost, setnewPost] = useState('');
+  const [newtitle, setnewTitle] = useState('');
   const navigate=useNavigate();
   const toggleShow = () =>{
 	if(!basicModal){
@@ -272,7 +273,9 @@ function SearchBar(){
                 <MDBModalDialog>
                 <MDBModalContent>
                     <MDBModalHeader>
-                        <MDBModalTitle>Post!</MDBModalTitle>
+                        <MDBModalTitle>
+                        <MDBTextArea label='Title' id='textAreaExample' value ={newtitle} rows={1} onChange = {(e) => setnewTitle(e.target.value)} />
+                        </MDBModalTitle>
                     </MDBModalHeader>
                     <MDBModalBody>
                         <MDBTextArea label='Post' id='textAreaExample' value ={newpost} rows={4} onChange = {(e) => setnewPost(e.target.value)} />

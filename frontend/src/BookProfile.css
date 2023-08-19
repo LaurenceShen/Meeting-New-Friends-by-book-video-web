@@ -1,0 +1,73 @@
+.BookProfile{
+    position:absolute;
+    display: flex;
+    flex-direction:column;
+}
+.image-and-comment{
+    position:absolute;
+    padding-left:10%;
+    padding-right:10%;
+    display: flex;
+    flex-direction:row;
+}
+.img{
+    padding-left:20%;
+    padding-right:70%;
+    max-height: 1%;
+    max-width: 1%;
+}
+.comment{
+    max-width: 50%;
+    position:absolute;
+    left:90%;
+    top:2%;
+}
+.shortcomment{
+    width:60%;
+    padding-top:3%;
+    padding-left:10%;
+}
+.content-and-comment{
+    position:relative;
+    display: flex;
+    flex-direction:row;
+    padding-top:30%;
+    left:8%;
+}
+.loop-slider {
+  .inner {
+    display: flex;
+    width: fit-content;
+    animation-name: loop;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: var(--direction);
+    animation-duration: var(--duration);
+  }
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0 0.2rem;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  background-color: #334155;
+  border-radius: 0.4rem;
+  padding: 0.7rem 1rem;
+  margin-right: 1rem; 
+  box-shadow:
+    0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+    0 0.1rem 0.5rem rgb(0 0 0 / 30%),
+    0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+
+}
+
+@keyframes loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

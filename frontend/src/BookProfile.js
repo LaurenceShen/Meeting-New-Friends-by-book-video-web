@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter,HashRouter, Route, Routes,useNavigate,Link } from "react-router-dom";
 import {ChatProvider,useChat} from './useChat.js'
 import './index.css';
+import './BookProfile.css';
 import SideBar from './sidebar.js';
 import useRWD from './useRWD.js';
 import Searchbar from './Searchbar.js';
@@ -58,7 +59,7 @@ import {
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
 
-
+import { MDBRipple } from 'mdb-react-ui-kit';
 
 import {
   MDBCarousel,
@@ -70,15 +71,90 @@ import {TransitionGroup} from 'react-transition-group';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 
 
-export default function BookProfile(){
+const COLORS = ['#bbf7d0', '#99f6e4', '#bfdbfe', '#ddd6fe', '#f5d0fe', '#fed7aa', '#fee2e2'];
+const TAGS = ['HTML', 'CSS', 'JavaScript', 'Typescript', 'Tailwind', 'React', 'Next.js', 'Gatsby', 'UI/UX', 'SVG', 'animation', 'webdev'];
+const DURATION = 30000;
+const ROWS = 5;
+const TAGS_PER_ROW = 5;
+const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+const shuffle = (arr) => [...arr].sort( () => .5 - Math.random() );
+
+const InfiniteLoopSlider = ({children, duration, reverse = false}) => {
+  return (
+    <div className='loop-slider' style={{
+        '--duration': `${duration}ms`,
+        '--direction': reverse ? 'reverse' : 'normal'
+      }}>
+      <div className='inner'>
+        {children}
+      </div>
+        <br />
+    </div>
+  );
+};
+
+const Tag = ({ text }) => (
+  <div className='tag'> {text}</div>
+);
+
+function ShortComment(){
+  const {books, status, post, sendPost}=useChat()
+  const [basicModal, setBasicModal] = useState(false);
+  const [newpost, setnewPost] = useState('');
+  const toggleShow = () => setBasicModal(!basicModal);
+  const [showSearchAlert, setShowSearchAlert] = useState(false);
+  const [email, setEmail] = useState('');
+
+  const [keyin,setKeyin]=useState("")
+
+  useEffect(
+  () =>{
+    setEmail(localStorage.getItem('useremail'))
+  },
+  [localStorage.getItem('useremail')]
+  )
+
+  let handlePost = () => {
+    sendPost([newpost, email]);
+    setnewPost('');
+  }
+    return(
+    <>
+                        <MDBTextArea label='Post' id='textAreaExample' value ={newpost} rows={4}  onChange = {(e) => setnewPost(e.target.value)} />
+                        <br />
+                        <MDBBtn size='lg' floating style={{ background: 'linear-gradient(to right, #84fab0, #8fd3f4)' }} onClick = {()=>handlePost([newpost, email])}>
+                            <MDBIcon far icon="paper-plane" />
+                        </MDBBtn>
+        </>
+        );
+}
+
+function intro(r){
+    return (
+        <div>
+            <h4> {r.name} </h4>
+        </div>
+    );
+}
+
+export default function BookProfile(r){
 	const [rcount,setRcount]=useState(-1);
 	const [key,setKey]=useState("");
 	const {keyword}=useParams();
 	let location = useLocation();
-    
+
+    const [basicActive, setBasicActive] = useState('tab1');
+
+    const handleBasicClick = (value: string) => {
+        if (value === basicActive) {
+            return;
+        }
+
+        setBasicActive(value);
+    };
     return (
 	<div className = "FrontPage">
-		<Searchbar rcount={rcount} keyword={keyword}/>
+		<Searchbar rcount={rcount} keyword={location.state.name}/>
 		 <Box
     		 sx={{
        		 width:"70%",
@@ -92,8 +168,72 @@ export default function BookProfile(){
 		</Typography>*/}
 		</Box>
         <div className = "BookProfile">
-            
+            <div className = "image-and-comment">
+                <div className = 'img'>
+                    <img src = {location.state.img} style = {{height:"30%"}} />
+                </div>
+                <div className = "comment">
+                    {[...new Array(ROWS)].map((_, i) => (
+                        <InfiniteLoopSlider key={i} duration={random(DURATION - 5000, DURATION + 5000)} reverse={i % 2}>
+                            {shuffle(TAGS).slice(0, TAGS_PER_ROW).map(tag => (
+                            <Tag text={tag} key={tag}/>
+                            ))}
+                         </InfiniteLoopSlider>
+                    ))}
+                </div>
+            </div>
+            </div>
+    <div className = "content-and-comment">
+        <div className = "content">
+      <MDBTabs  className='mb-3'>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleBasicClick('tab1')} active={basicActive === 'tab1'}>
+            intro
+          </MDBTabsLink>
+        </MDBTabsItem>
+        <MDBTabsItem>
+          <MDBTabsLink onClick={() => handleBasicClick('tab3')} active={basicActive === 'tab3'}>
+            comment
+          </MDBTabsLink>
+        </MDBTabsItem>
+      </MDBTabs>
+
+      <MDBTabsContent>
+        <MDBTabsPane show={basicActive === 'tab1'}>
+            <h5>{location.state.name}</h5>
+            <br/>
+            {location.state.description}
+            <br />
+            <ul>
+                <li>
+                    作者：{location.state.author}
+                </li>
+                <li>
+                    連結：{location.state.src}
+                </li>
+            </ul>
+        </MDBTabsPane>
+        <MDBTabsPane show={basicActive === 'tab3'}>
+            <ul>
+                <li> 難得一見的佳作！</li>
+                <li> 他爛透了 </li>
+            </ul>
+        </MDBTabsPane>
+      </MDBTabsContent>
         </div>
+        <div className = "shortcomment">
+            {basicActive === 'tab3' ?
+            <ShortComment />
+            : <></>
+            }
+	    </div>
+        
+	</div>
 	</div>
 	);
 }
+
+
+
+
+
