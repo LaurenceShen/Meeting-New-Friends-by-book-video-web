@@ -1,5 +1,6 @@
 import {json} from 'express'
 import User from './model/User.js'
+import Book from './model/Book.js'
 import Post from './model/Post.js'
 const {OAuth2Client}=require('google-auth-library')
 const CLIENT_ID='325684444932-r6ba80mc6eong2p7dnn62flrqd3266c6.apps.googleusercontent.com'
@@ -198,6 +199,19 @@ const saveUser = async (name, email) => {
     return newUser.save();
     } catch (e) { throw new Error("User creation error: " + e); }
    };
+
+const saveBook = async (name, author, img, description, src, rank, comment) => {
+    const existing = await Book.findOne({ name });
+    if (existing) return;
+    try {
+    const newBook = new Book({ name, author, img, description, src, rank, comment});
+    console.log("Created book!!", newBook._id.valueOf());
+    let id = newBook._id.valueOf();
+    newBook.save();
+    return id;
+    } catch (e) { throw new Error("Book creation error: " + e); }
+   };
+
 const verify=async (token)=>{
 	const client = new OAuth2Client(CLIENT_ID)
   //將token和client_Id放入參數一起去做驗證
@@ -257,6 +271,22 @@ export default{
                         const [name, email] = JSON.parse(payload);
                         console.log("createUser:", name);
                         saveUser(name, email);
+                        break;
+                   }
+                
+                case 'createBook':
+                   {
+                        console.log("createBook:", payload);
+                        const [name, author, img, description, src] = JSON.parse(payload);
+                        console.log("createBook:", name);
+                        const id = await saveBook(name, author, img, description, src, '1', "hi");
+                        console.log("id", id);
+					    broadcastMessage(
+                            [ws],['bookid',id],{
+                                type:'success',
+                                msg: 'Message sent.',
+                            }
+                        );
                         break;
                    }
 

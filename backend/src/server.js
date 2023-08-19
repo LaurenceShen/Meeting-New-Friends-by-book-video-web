@@ -57,6 +57,7 @@ import http from 'http'
 import WebSocket from 'ws'
 import dotenv from 'dotenv-defaults'
 import User from './model/User.js'
+import Book from './model/Book.js'
 import wsConnect from './wsConnect';
 mongo.connect(); 
 const app = express()
