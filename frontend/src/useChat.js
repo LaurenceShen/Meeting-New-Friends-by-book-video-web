@@ -46,7 +46,7 @@ const ChatProvider=(props)=>{
             }
             case 'mypost':{  
                 setPost(payload);
-                console.log("yayaya"+payload);
+                console.log("yayaya"+payload[0][0]);
                 break;
             }
 			case 'search':{

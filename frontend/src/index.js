@@ -10,7 +10,6 @@ import Dating from './dating.js';
 import useRWD from './useRWD.js';
 import Search from './Search.js';
 import BookProfile from './BookProfile.js';
-import Chat from './Chat.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -245,9 +244,10 @@ function SearchBar(){
   )
 
   let handlePost = () => {
-    sendPost([newpost,profile.email]);
+    sendPost([{'title':newtitle,'content':newpost},profile.email]);
     setBasicModal(!basicModal);
     setnewPost('');
+	setnewTitle('');
   }
 
   return (
