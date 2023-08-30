@@ -1,7 +1,5 @@
 import {json} from 'express'
-import User from './model/User.js'
-import Book from './model/Book.js'
-import Post from './model/Post.js'
+import {User,Post,Book} from './model.js'
 const {OAuth2Client}=require('google-auth-library')
 const CLIENT_ID='325684444932-r6ba80mc6eong2p7dnn62flrqd3266c6.apps.googleusercontent.com'
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
@@ -176,23 +174,31 @@ const broadcastMessage=(clients,data,status)=>{
 
 const savePost = async (id, email, title, content) => {
     try {
-    const newPost = new Post({ id, email, title, content });
+	let sender=await User.findOne({'email':email});
+    const newPost = new Post({'id':id,'title':title,'content':content,'user':sender });
     console.log("Created post", newPost);
+	sender=await User.updateOne(sender,{post:[...sender.post,newPost]})
     return newPost.save();
     } catch (e) { throw new Error("Post creation error: " + e); }
    };
 
 const getPost = async(email) => {
     try{
-    const userpost = await Post.find({"email": email});
-    let postcontent = userpost.map((i) => i.content)
+    let sender= await User.findOne({"email": email});
+	sender=await sender.populate('post');
+    let postcontent = sender.post.map((i) =>{return {'title':i.title,'content':i.content};})
+	console.log(postcontent);
     return postcontent;
     } catch (e) { throw new Error("Post search error: " + e); }
    };
 
 const saveUser = async (name, email) => {
+	console.log('uuu');
     const existing = await User.findOne({ email });
-    if (existing) return;
+    if (existing){ 
+	  console.log('exist');
+	   return;
+	}
     try {
     const newUser = new User({ name, email });
     console.log("Created user", newUser);
@@ -204,7 +210,7 @@ const saveBook = async (name, author, img, description, src, rank, comment) => {
     const existing = await Book.findOne({ name });
     if (existing) return;
     try {
-    const newBook = new Book({ name, author, img, description, src, rank, comment});
+    const newBook = new Book({ name, author, img, description, src, rank});
     console.log("Created book!!", newBook._id.valueOf());
     let id = newBook._id.valueOf();
     newBook.save();
@@ -249,7 +255,7 @@ export default{
                         console.log("dsfgf:", payload);
                         const [payloads, email] = JSON.parse(payload);
                         console.log("email:", email);
-                        savePost("1", email ,"test", payloads);
+                        savePost("1", email ,payloads.title, payloads.content);
                         console.log('post');
                         break;
                     }
@@ -258,6 +264,7 @@ export default{
                    {
                         const mypost = await getPost(payload);
                         console.log('getpost', mypost);
+						console.log('gg',mypost[0].content)
                         broadcastMessage(
                             wss.clients, ['mypost', mypost],{
                             }
