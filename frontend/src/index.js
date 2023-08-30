@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter,HashRouter, Route, Routes,useNavigate,Link } from "react-router-dom";
 import './index.css';
 import './login.js';
+import Chat from './Chat.js';
 import SideBar from './sidebar.js';
 import Login from './login.js';
 import User from './user.js';
@@ -670,7 +671,9 @@ function FrontPage () {
                 <div className = "User-block">
                     <SideBar />
                     <div className = "message">
-                    <MDBIcon fas icon="comment" size = "2x"/>
+                        <a href = "./chat">
+                            <MDBIcon fas icon="comment" size = "2x"/>
+                        </a>
                     </div >
                 </div>
                 <h2 className = "Title"> Search! </h2>
@@ -713,6 +716,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </GoogleOAuthProvider> } />
         <Route path="/user" element={ <User /> } />
         <Route path="/matching" element={ <Dating /> } />
+        <Route path="/chat" element={ <Chat /> } />
 		<Route path='/search/:keyword/:page' element={ <Search/> }/>
 		<Route path='/book/:keyword' element={ <BookProfile/> }/>
       </Routes>

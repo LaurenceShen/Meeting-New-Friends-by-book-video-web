@@ -218,6 +218,16 @@ const saveBook = async (name, author, img, description, src, rank, comment) => {
     } catch (e) { throw new Error("Book creation error: " + e); }
    };
 
+const saveUserProfile = async (email) => {
+    const existing = await User.findOne({ email });
+    if (!existing) return;
+    try {
+    const newUser = new User({ name, email });
+    console.log("Created user", newUser);
+    return newUser.save();
+    } catch (e) { throw new Error("User creation error: " + e); }
+   };
+
 const verify=async (token)=>{
 	const client = new OAuth2Client(CLIENT_ID)
   //將token和client_Id放入參數一起去做驗證
@@ -312,6 +322,18 @@ export default{
 					await verify(payload)
 					break;
 				}
+
+				case 'editUserProfile':{
+                    console.log(res);
+					broadcastMessage(
+                            [ws],['search',res],{
+                                type:'success',
+                                msg: 'Message sent.',
+                            }
+                    );
+					break;
+				}
+
 		default:
                     console.log('fault');
                     break;

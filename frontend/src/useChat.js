@@ -9,8 +9,10 @@ const ChatContext=createContext({
     post:[],
     result:{},
 	profile:{},
+    userprofile:"",
     sendMessage:()=>{},           
     sendPost:()=>{},
+    editUserProfile:()=>{},
     setPost:()=>{},
     getMyPost:()=>{},
     clearMessages:()=>{}, 
@@ -29,6 +31,7 @@ const ChatProvider=(props)=>{
     const [status,setStatus]=useState({}); 
 	const [result,setResult]=useState({num:0,data:[]});
 	const [profile,setProfile]=useState({});
+	const [userprofile,setUserProfile]=useState({});
     client.onmessage=(byteString)=>{  
         const {data}=byteString; 
         const [task,payload]=JSON.parse(data);
@@ -55,6 +58,11 @@ const ChatProvider=(props)=>{
 				break;
 			}
             case 'bookid':{
+				setBookId(payload);
+				console.log('bookid:'+payload)
+				break;
+            }
+            case 'userprofile':{
 				setBookId(payload);
 				console.log('bookid:'+payload)
 				break;
@@ -130,6 +138,12 @@ const ChatProvider=(props)=>{
 		}
 		return flag;
 	}
+    
+    const editUserProfile=(payload)=>{
+        payload = JSON.stringify(payload);                                                                   
+        console.log(payload);                                                                                
+        Newsend(["editUserProfile",payload]);                                                                     
+    }
 
     const waitForConnection = function (callback, interval) {
         if (client.readyState === 1) {
@@ -152,9 +166,9 @@ const ChatProvider=(props)=>{
     return ( 
         <ChatContext.Provider
             value={{
-                status, books, post, bookid,
+                status, books, post, bookid, userprofile,
                 sendMessage, clearMessages, sendPost, getMyPost, createUser,createBook,
-                Search, result,sendToken,profile,setProfile, setBookId
+                Search, result,sendToken,profile,setProfile, setBookId, editUserProfile,
             }}
             {...props}   
         />

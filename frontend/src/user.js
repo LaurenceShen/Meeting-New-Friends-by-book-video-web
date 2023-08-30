@@ -18,6 +18,7 @@ import {
   MDBNavbarLink,
   MDBNavbarToggler,
   MDBCollapse,
+  MDBTextArea,
   MDBDropdown,
   MDBDropdownMenu,
   MDBDropdownToggle,
@@ -39,10 +40,22 @@ import { MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
 
 function User(){
   const {books, status, post,profile, sendPost, getMyPost,sendToken}=useChat();
+  const [mypost, setMyPost] = useState([]);
+  const [newprofile, setnewProfile] = useState("Web Developer\nLives in New York\nPhotographer");
+  const [textshow, setTextShow] = useState(false);
   const [change, setChange] = useState([true]);
   const device = useRWD();
   const navigate=useNavigate();	
   
+  const handleTextShow = () => {
+    setTextShow(!textshow);
+    console.log(newprofile.split("\n"));
+  }
+
+  const handleTextSave = () => {
+    handleTextShow();
+  }
+
   useEffect(
     () => {
 			if(!sendToken()){
@@ -55,8 +68,8 @@ function User(){
 	()=>{
 		if(profile.email){
 			getMyPost(profile.email);
-			console.log('pp',profile);
-
+			setMyPost(post);
+			//console.log('pp',profile);
 		}
     },[profile]		
   )
@@ -100,12 +113,26 @@ function User(){
               </div>
               <MDBCardBody className="text-black p-4">
                 <div className="mb-5">
-                  <p className="lead fw-normal mb-1">About</p>
-                  <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
-                    <MDBCardText className="font-italic mb-1">Web Developer</MDBCardText>
-                    <MDBCardText className="font-italic mb-1">Lives in New York</MDBCardText>
-                    <MDBCardText className="font-italic mb-0">Photographer</MDBCardText>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <MDBCardText className="lead fw-normal mb-0">About</MDBCardText>
+                  <MDBCardText className="mb-0">
+                    {textshow ?
+                    <i className="fas fa-pen-nib" onClick = {() => handleTextShow(true)}></i>
+                    : <i className="fas fa-check" onClick = {() => handleTextSave()}></i>
+                    }
+                  </MDBCardText>
                   </div>
+                  {textshow ? 
+                  <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
+                    {newprofile.split('\n').map((i)=>
+                       <ul>{i}</ul>
+                    )}
+                  </div>
+                  : 
+                  <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
+                        <MDBTextArea label='About' id='textAreaExample' value ={newprofile} rows={4} onChange = {(e) => setnewProfile(e.target.value)} />
+                  </div>
+                  }
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <MDBCardText className="lead fw-normal mb-0">Recent posts</MDBCardText>
@@ -140,8 +167,8 @@ function User(){
 }
 
 function Postcard(content) {
+    //console.log("postcards:", content);
     console.log("postcards:", content);
-	
   return (
     <MDBCard alignment='center'>
       <MDBCardBody>
