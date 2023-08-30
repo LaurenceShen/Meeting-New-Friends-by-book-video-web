@@ -36,6 +36,7 @@ import { MDBBadge } from 'mdb-react-ui-kit';
 import SidebarMenu from 'react-bootstrap-sidebar-menu';
 
 import { MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
+import { MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
 
 function User(){
   const {books, status, post,profile, sendPost, getMyPost,sendToken}=useChat();
@@ -69,7 +70,6 @@ function User(){
 			getMyPost(profile.email);
 			setMyPost(post);
 			//console.log('pp',profile);
-
 		}
     },[profile]		
   )
@@ -138,12 +138,24 @@ function User(){
                   <MDBCardText className="lead fw-normal mb-0">Recent posts</MDBCardText>
                   <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
                 </div>
-                <MDBRow>
+               {/* <MDBRow>
                     {post
                     .slice(0)
                     .reverse()
                     .map((i) => (<><Postcard content = {i}/><br /></>))}
-                </MDBRow>
+                </MDBRow>*/}
+				<MDBAccordion flush initialActive={1}>
+					{post
+					.slice(0)
+					.reverse(0)
+					.map((element,index)=>
+      <MDBAccordionItem collapseId={index+1} headerTitle={element.title}>
+		{element.content}
+      </MDBAccordionItem>	
+					)
+					}
+    			</MDBAccordion>
+				
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -156,10 +168,12 @@ function User(){
 
 function Postcard(content) {
     //console.log("postcards:", content);
+    console.log("postcards:", content);
   return (
     <MDBCard alignment='center'>
       <MDBCardBody>
-        <MDBCardText>{content.content}</MDBCardText>
+		<MDBCardTitle>{content.content.title}</MDBCardTitle>
+        <MDBCardText>{content.content.content}</MDBCardText>
       </MDBCardBody>
       <MDBCardFooter className='text-muted' style = {{"font-size" : '1px'}} >2 days ago</MDBCardFooter>
     </MDBCard>

@@ -245,9 +245,10 @@ function SearchBar(){
   )
 
   let handlePost = () => {
-    sendPost([newpost,profile.email]);
+    sendPost([{'title':newtitle,'content':newpost},profile.email]);
     setBasicModal(!basicModal);
     setnewPost('');
+	setnewTitle('');
   }
 
   return (
