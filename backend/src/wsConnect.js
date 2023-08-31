@@ -200,7 +200,7 @@ const saveUser = async (name, email) => {
 	   return;
 	}
     try {
-    const newUser = new User({ name, email });
+    const newUser = new User({ name, email , about:"About..."});
     console.log("Created user", newUser);
     return newUser.save();
     } catch (e) { throw new Error("User creation error: " + e); }
@@ -218,14 +218,25 @@ const saveBook = async (name, author, img, description, src, rank, comment) => {
     } catch (e) { throw new Error("Book creation error: " + e); }
    };
 
-const saveUserProfile = async (email) => {
+const saveUserProfile = async (email, profile) => {
     const existing = await User.findOne({ email });
     if (!existing) return;
     try {
-    const newUser = new User({ name, email });
-    console.log("Created user", newUser);
-    return newUser.save();
-    } catch (e) { throw new Error("User creation error: " + e); }
+    return User.updateOne(
+    {email: email},
+    {$set:{'about': profile}},
+    {upsert:true}
+    );
+    } catch (e) { throw new Error("User profile error: " + e); }
+   };
+
+const getProfile = async(email) => {
+    try{
+    let sender= await User.findOne({"email": email});
+    let userprofile = sender.about;
+	console.log(userprofile);
+    return userprofile;
+    } catch (e) { throw new Error("Profile search error: " + e); }
    };
 
 const verify=async (token)=>{
@@ -274,7 +285,7 @@ export default{
                    {
                         const mypost = await getPost(payload);
                         console.log('getpost', mypost);
-						console.log('gg',mypost[0].content)
+						//console.log('gg',mypost[0].content)
                         broadcastMessage(
                             wss.clients, ['mypost', mypost],{
                             }
@@ -324,15 +335,24 @@ export default{
 				}
 
 				case 'editUserProfile':{
-                    console.log(res);
-					broadcastMessage(
-                            [ws],['search',res],{
-                                type:'success',
-                                msg: 'Message sent.',
-                            }
-                    );
+                    console.log("editbackend:", payload);
+                    const [email, profile] = JSON.parse(payload);
+                    console.log("editbackend-profile:", profile);
+                    await saveUserProfile(email, profile);
 					break;
 				}
+
+                case 'myprofile':
+                   {
+                        const myprofile = await getProfile(payload);
+                        console.log('myprofile', myprofile);
+						//console.log('gg',mypost[0].content)
+                        broadcastMessage(
+                            wss.clients, ['myprofile', myprofile],{
+                            }
+                        );
+                        break;
+                    }
 
 		default:
                     console.log('fault');

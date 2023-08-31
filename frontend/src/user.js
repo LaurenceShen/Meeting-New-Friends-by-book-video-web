@@ -1,6 +1,7 @@
 import React, { useState , useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes,useNavigate } from "react-router-dom";
+import {useParams, useLocation} from 'react-router-dom';
 import './user.css';
 import SideBar from './sidebar.js';
 /* mdb-react-ui-kit */
@@ -39,22 +40,33 @@ import { MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from '
 import { MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
 
 function User(){
-  const {books, status, post,profile, sendPost, getMyPost,sendToken}=useChat();
+  const {books, status, post, profile, sendPost, getMyPost, sendToken, editUserProfile, userprofile, getMyProfile}=useChat();
   const [mypost, setMyPost] = useState([]);
   const [newprofile, setnewProfile] = useState("Web Developer\nLives in New York\nPhotographer");
-  const [textshow, setTextShow] = useState(false);
+  const [textshow, setTextShow] = useState(true);
   const [change, setChange] = useState([true]);
+  const {keyword}=useParams();
   const device = useRWD();
   const navigate=useNavigate();	
   
   const handleTextShow = () => {
     setTextShow(!textshow);
-    console.log(newprofile.split("\n"));
   }
 
   const handleTextSave = () => {
+    console.log(newprofile);
+    editUserProfile([profile.email, newprofile]);
     handleTextShow();
   }
+
+  useEffect(
+    () => {
+        console.log("profile:",userprofile)
+        if (userprofile != "")
+        setnewProfile(userprofile)
+    },
+    [userprofile]
+  )
 
   useEffect(
     () => {
@@ -66,12 +78,14 @@ function User(){
   )
   useEffect(
 	()=>{
-		if(profile.email){
-			getMyPost(profile.email);
+		if(keyword){
+			getMyPost(keyword);
 			setMyPost(post);
-			//console.log('pp',profile);
+            console.log(post)
+			getMyProfile(keyword);
+			console.log('profile',userprofile);
 		}
-    },[profile]		
+    },[profile]
   )
 
   return (
@@ -124,13 +138,14 @@ function User(){
                   </div>
                   {textshow ? 
                   <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
+                    
                     {newprofile.split('\n').map((i)=>
                        <ul>{i}</ul>
                     )}
                   </div>
                   : 
                   <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
-                        <MDBTextArea label='About' id='textAreaExample' value ={newprofile} rows={4} onChange = {(e) => setnewProfile(e.target.value)} />
+                        <MDBTextArea  id='textAreaExample' value ={newprofile} rows={4} onChange = {(e) => setnewProfile(e.target.value)} />
                   </div>
                   }
                 </div>
@@ -144,6 +159,7 @@ function User(){
                     .reverse()
                     .map((i) => (<><Postcard content = {i}/><br /></>))}
                 </MDBRow>*/}
+                {post!==[] ?
 				<MDBAccordion flush initialActive={1}>
 					{post
 					.slice(0)
@@ -155,7 +171,9 @@ function User(){
 					)
 					}
     			</MDBAccordion>
-				
+				:
+                <p> There's no post... Go write your first Post! </p>
+                }
               </MDBCardBody>
             </MDBCard>
           </MDBCol>

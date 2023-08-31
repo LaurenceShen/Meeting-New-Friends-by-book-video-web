@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
  name: String,
  email: String,
+ about: String,
  post:[{type:mongoose.Types.ObjectId,ref:'Post'}],
 });
 const User = mongoose.model('User', UserSchema);
