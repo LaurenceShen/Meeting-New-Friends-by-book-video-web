@@ -22,6 +22,7 @@ const ChatContext=createContext({
 	sendToken:()=>{},
 	setProfile:()=>{},
     setBookId:()=>{},
+    getMyProfile:()=>{},
 });            
 //開啟後執行的動作，指定一個 function 會在連結 WebSocket 後執行  
 const ChatProvider=(props)=>{    
@@ -31,7 +32,7 @@ const ChatProvider=(props)=>{
     const [status,setStatus]=useState({}); 
 	const [result,setResult]=useState({num:0,data:[]});
 	const [profile,setProfile]=useState({});
-	const [userprofile,setUserProfile]=useState({});
+	const [userprofile,setUserProfile]=useState("");
     client.onmessage=(byteString)=>{  
         const {data}=byteString; 
         const [task,payload]=JSON.parse(data);
@@ -65,6 +66,11 @@ const ChatProvider=(props)=>{
             case 'userprofile':{
 				setBookId(payload);
 				console.log('bookid:'+payload)
+				break;
+            }
+            case 'myprofile':{
+				setUserProfile(payload);
+				console.log('myprofile:'+payload)
 				break;
             }
         }
@@ -141,8 +147,13 @@ const ChatProvider=(props)=>{
     
     const editUserProfile=(payload)=>{
         payload = JSON.stringify(payload);                                                                   
-        console.log(payload);                                                                                
+        console.log("edit:", payload);                                                                                
         Newsend(["editUserProfile",payload]);                                                                     
+    }
+
+    const getMyProfile=(payload)=>{ 
+        console.log("getmyprofile",payload);
+        Newsend(["myprofile",payload]); 
     }
 
     const waitForConnection = function (callback, interval) {
@@ -168,7 +179,7 @@ const ChatProvider=(props)=>{
             value={{
                 status, books, post, bookid, userprofile,
                 sendMessage, clearMessages, sendPost, getMyPost, createUser,createBook,
-                Search, result,sendToken,profile,setProfile, setBookId, editUserProfile,
+                Search, result,sendToken, profile,setProfile, setBookId, editUserProfile, getMyProfile,
             }}
             {...props}   
         />

@@ -4,6 +4,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import './index.css';
 import './login.js';
 import useRWD from './useRWD.js';
+import {useChat} from './useChat.js';
 /* mdb-react-ui-kit */
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -37,6 +38,16 @@ const Bigdiv=styled.div`
 `
 function SideBar(){
   const device = useRWD();
+  const {sendToken, profile}=useChat();
+
+  useEffect(
+    () => {
+			sendToken();
+			
+    },
+    []
+  )
+
   return (
     <Bigdiv className='User-icon'>
         <nav className = {device==="mobile" ? ("menu_mobile") : ("menu")}>
@@ -45,7 +56,7 @@ function SideBar(){
             </div>
             <ul>
                 <li><Link to="/">Home</Link></li>
-                <li><Link to="/user">User</Link></li>
+                <li><Link to={`/user/${profile.email}`}>User</Link></li>
                 <li><Link to="/login">Login</Link></li>
                 <li><Link to="/matching">Matching</Link></li>
             </ul>

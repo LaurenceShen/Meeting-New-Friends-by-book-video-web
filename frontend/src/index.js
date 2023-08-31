@@ -714,7 +714,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Login />
         </React.StrictMode>
     </GoogleOAuthProvider> } />
-        <Route path="/user" element={ <User /> } />
+        <Route path="/user/:keyword" element={ <User /> } />
         <Route path="/matching" element={ <Dating /> } />
         <Route path="/chat" element={ <Chat /> } />
 		<Route path='/search/:keyword/:page' element={ <Search/> }/>
